@@ -1,0 +1,9 @@
+.sc-nest {
+  border: 1px solid black;
+  border-left-width: thick;
+  min-height: 100px;
+}
+
+.sc-nest-loading {
+  background-color: rgb(255,0,0);
+}

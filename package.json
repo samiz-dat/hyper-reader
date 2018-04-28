@@ -1,0 +1,30 @@
+{
+  "name": "hyper-reader",
+  "version": "0.0.1",
+  "description": "a hyper-readings editor built with substance.io [WIP]",
+  "main": "./dist/hyper-reader.cjs.js",
+  "jsnext:main": "index.es.js",
+  "scripts": {
+    "build": "node make",
+    "clean": "node make clean",
+    "start": "node make -s -w",
+    "app": "node make run-app -w",
+    "release": "node make app && build --project app-dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Benjamin Forster",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^16.2.0",
+    "dar-server": "^0.4.1",
+    "electron": "2.0.0-beta.2",
+    "electron-builder": "20.4.0",
+    "font-awesome": "^4.7.0",
+    "standard": "^11.0.0",
+    "substance-bundler": "^0.21.2"
+  },
+  "dependencies": {
+    "hyper-readings": "^0.0.4",
+    "substance": "^1.0.0-preview.37"
+  }
+}
