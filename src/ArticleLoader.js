@@ -1,19 +1,19 @@
 import { EditorSession, Configurator } from 'substance'
 // import ReadingListConfigurator from './editor/util/ReadingListConfigurator'
 import EditorPackage from './editor/EditorPackage'
-import HyperReadingsImporter from './converter/HyperReadingsImporter'
+import hyperReadingsImporter from './converter/hyperReadingsImporter'
 
 export default {
   load: (key, context) => {
-    let configurator = new Configurator()
-    configurator.import(EditorPackage)
-    let hrImporter = new HyperReadingsImporter()
-    let hr = hrImporter.import(key, context)
-    // wait for hr to be ready
-    console.log(configurator.getConverterRegistry())
-    let importer = configurator.createImporter('html')
-    let doc = importer.importDocument(hr.dom)
-    let editorSession = new EditorSession(doc, { configurator, context })
-    return editorSession
+    return hyperReadingsImporter(key, context)
+      .then((data) => {
+        let configurator = new Configurator()
+        configurator.import(EditorPackage)
+        console.log(configurator)
+        let importer = configurator.createImporter('html')
+        let doc = importer.importDocument(data.dom)
+        let editorSession = new EditorSession(doc, { configurator, context })
+        return { editorSession, hr: data.hr }
+      })
   }
 }

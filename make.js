@@ -71,8 +71,9 @@ b.task('run-app', ['app'], () => {
 // copy assets
 b.task('build:assets', () => {
   b.copy('app/index.html', './dist/index.html')
-  b.copy('./node_modules/font-awesome', './dist/font-awesome')
+  b.copy('./node_modules/font-awesome', DIST + 'font-awesome')
   b.copy('./node_modules/substance/dist', DIST + 'substance/dist')
+  b.copy('./node_modules/hyper-readings/dist', DIST + 'hyper-readings/dist')
   b.css('hyper-reader.css', DIST + 'hyper-reader.css')
   b.css('./node_modules/substance/substance-pagestyle.css', DIST + 'hyper-reader-pagestyle.css')
   b.css('./node_modules/substance/substance-reset.css', DIST + 'hyper-reader-reset.css')
@@ -99,6 +100,7 @@ b.task('build:app', () => {
   // b.copy('dist', APPDIST+'lib/')
   b.copy('dist/font-awesome', APPDIST + 'lib/')
   b.copy('dist/substance', APPDIST + 'lib/')
+  b.copy('dist/hyper-readings/dist', APPDIST + 'lib/hyper-readings/dist')
   ;[
     'hyper-reader.js',
     'hyper-reader.css',
@@ -138,7 +140,7 @@ b.task('build:app', () => {
         'hyper-reader': 'window.reader'
       }
     },
-    external: [ 'substance', 'hyper-reader' ]
+    external: ['substance', 'hyper-reader']
   })
   // execute 'install-app-deps'
   fork(b, require.resolve('electron-builder/out/cli/cli.js'), 'install-app-deps', { verbose: true, cwd: APPDIST, await: true })
@@ -180,7 +182,8 @@ function _buildLib (DEST, platform) {
     external: ['substance', 'hyper-reader', 'hyper-readings'],
     globals: {
       'substance': 'substance',
-      'hyper-reader': 'window.reader'
+      'hyper-reader': 'window.reader',
+      'hyper-readings': 'window.HyperReadings'
     }
   })
 }

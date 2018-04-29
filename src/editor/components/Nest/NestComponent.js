@@ -35,8 +35,7 @@ class NestComponent extends Component {
         $$(ContainerEditor, {
           // disabled: this.props.disabled,
           node: node,
-          commands: configurator.getSurfaceCommandNames(),
-          // textTypes: configurator.getTextTypes()
+          commands: configurator.getSurfaceCommandNames()
         }).ref('editor')
       )
     }

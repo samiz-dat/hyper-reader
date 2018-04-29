@@ -24,7 +24,7 @@
     "substance-bundler": "^0.21.2"
   },
   "dependencies": {
-    "hyper-readings": "^0.0.4",
+    "hyper-readings": "0.0.5",
     "substance": "^1.0.0-preview.37"
   }
 }

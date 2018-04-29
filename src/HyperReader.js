@@ -11,10 +11,8 @@ export default class HyperReader extends Component {
 
   getChildContext () {
     const configurator = this.configurator
-    const pubMetaDbSession = this.pubMetaDbSession
     return {
       configurator,
-      pubMetaDbSession,
       urlResolver: this.props.archive
     }
   }

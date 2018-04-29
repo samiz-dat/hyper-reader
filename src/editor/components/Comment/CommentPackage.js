@@ -14,7 +14,6 @@ export default {
   configure: function (config, options) {
     config.addNode(Comment)
     config.addConverter('html', CommentConverter)
-
     // Tool to insert a new comment
     config.addCommand('comment', CommentCommand, { nodeType: 'comment', commandGroup: 'annotations' })
     // config.addCommand('comment', AnnotationCommand, {
