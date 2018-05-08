@@ -1,12 +1,13 @@
 export default {
   type: 'nest',
   tagName: 'div',
-  matchElement: function (el) {
-    return el.is('div[data-type="nest"]')
-  },
+  // matchElement: function (el) {
+  //   return el.is('div[data-type="nest"]')
+  // },
   import: function (el, node, converter) {
     console.log('import nest', el, node)
-    node.id = 'nest'
+    console.log('id', el.getAttribute('data-id'))
+    // node.id = 'nest'
     node.nodes = el.getChildren().map(function (child) {
       var childNode = converter.convertElement(child)
       return childNode.id

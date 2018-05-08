@@ -1,9 +1,11 @@
 {
-  "name": "Texture",
+  "name": "Hyper Reader",
   "version": "${version}",
-  "description": "A scientific word processor.",
+  "description": "A peer to peer word processor.",
   "main": "main.js",
-  "dependencies": {},
+  "dependencies": {
+    "electron": "2.0.0-beta.2"
+  },
   "build": {
     "appId": "com.hyper-readings.hyper-readings-desktop",
     "files": [

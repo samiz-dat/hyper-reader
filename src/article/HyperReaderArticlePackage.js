@@ -1,5 +1,5 @@
 import { Document } from 'substance'
-import HyperReaderArticleImporter from './HyperReaderArticleImporter'
+// import HyperReaderArticleImporter from './HyperReaderArticleImporter'
 import HyperReaderDomImporter from './HyperReaderDomImporter'
 // import TextureHTMLConverters from './TextureHTMLConverters'
 
@@ -9,11 +9,10 @@ export default {
     config.defineSchema({
       version: 1,
       name: 'hyper-reader-article',
-      ArticleClass: Document,
+      DocumentClass: Document,
       defaultTextType: 'paragraph'
     })
     config.addImporter('html', HyperReaderDomImporter)
-    // config.addImporter('dom', HyperReaderDomImporter)
     // // enable rich-text support for clipboard
     // TextureHTMLConverters.forEach((converter) => {
     //   config.addConverter('html', converter)

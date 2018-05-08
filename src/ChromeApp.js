@@ -39,22 +39,23 @@ class AppChrome extends Component {
     this._childContext = this._setupChildContext()
 
     let promise = this._initContext(this._childContext)
-      .then(() => this._loadArchive(this.props.key, this._childContext))
+      .then(() => this._loadArchive(this._childContext))
+      // .then((archive) => new Promise(resolve => setTimeout(() => resolve(archive), 2000)))
       .then(archive => {
-        console.log('loaded');
+        console.log('loaded')
         return archive
       })
       .then(archive => this._initArchive(archive, this._childContext))
       .then(archive => {
         console.log('ok')
-        this.setState({ archive })
+        this.extendState({ archive })
       })
 
     if (!platform.devtools) {
       promise.catch(error => {
         console.log('error')
         console.error(error)
-        this.setState({ error })
+        this.extendState({ error })
       })
     }
   }

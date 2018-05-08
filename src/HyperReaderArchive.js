@@ -1,5 +1,6 @@
-// import { prettyPrintXML, PersistedDocumentArchive, DefaultDOMElement } from 'substance'
+import { Configurator } from 'substance'
 import ArticleLoader from './ArticleLoader'
+import hr2Dom from './converter/hr2Dom'
 
 /**
  *  TODO: Should move creation of hyper readings into here.
@@ -7,43 +8,64 @@ import ArticleLoader from './ArticleLoader'
  *  hyper readings into initial dom elements
  */
 export default class HyperReaderArchive {
-  constructor () {
-    this.readings = {}
-    this.sessions = {}
+  // injecting the HyperReadings library into the Archive
+  constructor (hrManager) {
+    this.manager = hrManager
+    this.session = null
+    this.selected = null
+    this.configurator = new Configurator()
   }
 
-  getEditorSession (id) {
-    return this.sessions[id]
+  getConfigurator () {
+    return this.configurator
+  }
+
+  getEditorSession () {
+    return this.session
+  }
+
+  list () {
+    return this.manager.list()
   }
 
   getTitle () {
-    let editorSession = this.getEditorSession('manuscript')
     let title = 'Untitled'
-    if (editorSession) {
-      let doc = editorSession.getDocument()
-      let articleTitle = doc.find('article-title').textContent
-      if (articleTitle) {
-        title = articleTitle
-      }
-    }
     return title
   }
 
-  load (key) {
+  async new (name) {
+    // get new empty session
+    this.session = ArticleLoader.load(null, this.configurator, { archive: this })
+    return this
+  }
+
+  async load (key) {
     return this._load(key)
-      .then((data) => {
-        this.sessions['manuscript'] = data.editorSession
-        this.readings['manuscript'] = data.hr
+      .then((session) => {
+        this.session = session
+        this.selected = key
+        // can listen to changes here - and only save changes
+        // to start with node deletions will probably be priority.
+        // data.editorSession.onUpdate('document', (change) => {
+        //   console.log('cccc', change)
+        // }, this)
         return this
       })
+  }
+
+  async save () {
+    let doc = this.session.getDocument()
+    console.log('save', doc.toJSON())
+    // process document
   }
 
   /** Load hyperreadings as a Substance Document
    *  This returns a promise.
    */
-  _load (key) {
-    return ArticleLoader.load(key, {
-      archive: this
-    })
+  async _load (key) {
+    const hr = this.manager.get(key)
+    // await hr.import('# hello\n\nworld', { type: 'md' })
+    const dom = await hr2Dom(hr)
+    return ArticleLoader.load(dom, this.configurator, { archive: this })
   }
 }

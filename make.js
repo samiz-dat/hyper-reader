@@ -2,33 +2,11 @@ const fs = require('fs')
 const path = require('path')
 const b = require('substance-bundler')
 const fork = require('substance-bundler/extensions/fork')
-// const vfs = require('substance-bundler/extensions/vfs')
 // const path = require('path')
 const DIST = 'dist/'
 const APPDIST = 'app-dist/'
 const TMP = 'tmp/'
 // const HYPER_READINGS_BROWSER = path.join(__dirname, 'tmp/hyper-readings.browser.js')
-
-const port = 4000 // TODO: make this configurable
-b.setServerPort(port)
-b.yargs.option('d', {
-  type: 'string',
-  alias: 'rootDir',
-  describe: 'Root directory of served archives'
-})
-let argv = b.yargs.argv
-if (argv.d) {
-  const darServer = require('dar-server')
-  const rootDir = argv.d
-  const archiveDir = path.resolve(path.join(__dirname, rootDir))
-  darServer.serve(b.server, {
-    port,
-    serverUrl: `http://localhost:${port}`,
-    rootDir: archiveDir,
-    apiUrl: '/archives'
-  })
-}
-b.serve({ static: true, route: '/', folder: './dist' })
 
 // Make Targets
 
@@ -73,7 +51,6 @@ b.task('build:assets', () => {
   b.copy('app/index.html', './dist/index.html')
   b.copy('./node_modules/font-awesome', DIST + 'font-awesome')
   b.copy('./node_modules/substance/dist', DIST + 'substance/dist')
-  b.copy('./node_modules/hyper-readings/dist', DIST + 'hyper-readings/dist')
   b.css('hyper-reader.css', DIST + 'hyper-reader.css')
   b.css('./node_modules/substance/substance-pagestyle.css', DIST + 'hyper-reader-pagestyle.css')
   b.css('./node_modules/substance/substance-reset.css', DIST + 'hyper-reader-reset.css')
@@ -94,13 +71,8 @@ b.task('build:lib', () => {
 b.task('build:app', () => {
   b.copy('app/index.html', APPDIST)
   b.copy('app/build-resources', APPDIST)
-  b.copy('data', APPDIST)
-  // FIXME: this command leads to an extra run when a  file is updated
-  // .. instead copying the files explicitly for now
-  // b.copy('dist', APPDIST+'lib/')
   b.copy('dist/font-awesome', APPDIST + 'lib/')
   b.copy('dist/substance', APPDIST + 'lib/')
-  b.copy('dist/hyper-readings/dist', APPDIST + 'lib/hyper-readings/dist')
   ;[
     'hyper-reader.js',
     'hyper-reader.css',
@@ -182,50 +154,7 @@ function _buildLib (DEST, platform) {
     external: ['substance', 'hyper-reader', 'hyper-readings'],
     globals: {
       'substance': 'substance',
-      'hyper-reader': 'window.reader',
-      'hyper-readings': 'window.HyperReadings'
+      'hyper-reader': 'window.reader'
     }
   })
 }
-
-// // bundle tape with browserify
-// b.task('hr:browser', function () {
-//   console.log('DOING THIS ')
-//   b.browserify('./node_modules/hyper-readings/index.js', {
-//     dest: HYPER_READINGS_BROWSER,
-//     exports: ['default']
-//   })
-// })
-
-// b.task('build', ['clean', 'assets', 'hr:browser'], () => {
-//   _client(false)
-// })
-
-// b.task('dev:build', ['clean', 'assets', 'hr:browser'], () => {
-//   _client(true)
-// })
-
-// b.task('default', ['build'])
-
-// // starts a server when CLI argument '-s' is set
-// b.setServerPort(5555)
-// b.serve({
-//   static: true, route: '/', folder: 'dist'
-// })
-
-// function _client (devMode) {
-//   b.css('./app/app.css', 'dist/app.css', { variables: true })
-//   b.js('app/app.js', {
-//     // commonjs: ['hyper-readings'],
-//     alias: {
-//       'hyper-readings': HYPER_READINGS_BROWSER
-//     },
-//     target: {
-//       dest: './dist/app.js',
-//       format: 'umd',
-//       moduleName: 'app'
-//     },
-//     buble: !devMode
-//     // globals: ['hyper-readings']
-//   })
-// }

@@ -1,0 +1,34 @@
+/*
+  Big Button style
+*/
+.sc-button.sm-style-big {
+  font-size: 12px;
+  background: #2A8CFF;
+  font-family: 'Avenir Next', 'Lato', Helvetica;
+  font-weight: 500;
+  padding: 5px 20px;
+  color: white;
+  border-radius: 20px;
+}
+
+.sc-button.sm-style-big:hover {
+  background: #277ce0;
+}
+
+.sg-actions {
+  text-align: right;
+  padding: 20px;
+}
+
+.sg-actions > button {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.sg-actions > button.sm-secondary {
+  background: #606060;
+}
+
+.sg-actions > button.sm-secondary:hover {
+  background: #404040;
+}

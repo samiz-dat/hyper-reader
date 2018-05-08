@@ -1,5 +1,4 @@
 export default {
-
   type: 'comment',
   tagName: 'span',
 

@@ -7,14 +7,12 @@ import HyperReader from './HyperReader'
 import HyperReaderArchive from './HyperReaderArchive'
 
 function _renderHyperReaderApp ($$, app) {
+  console.log('render app')
   let el = $$('div').addClass('sc-app')
   let { archive, error } = app.state
-  console.log('render Reader App', archive)
   if (archive) {
     el.append(
-      $$(HyperReader, {
-        archive
-      })
+      $$(HyperReader, { archive })
     )
   } else if (error) {
     el.append(
@@ -22,7 +20,7 @@ function _renderHyperReaderApp ($$, app) {
       error.message
     )
   } else {
-    // LOADING...
+    el.append('Loading!')
   }
   return el
 }
@@ -30,8 +28,8 @@ function _renderHyperReaderApp ($$, app) {
 export function _handleKeyDown (event, app) {
   // Handle custom keyboard shortcuts globally
   let archive = app.state.archive
-  if (archive) {
-    let manuscriptSession = archive.getEditorSession('manuscript')
+  if (archive && archive.getEditorSession()) {
+    let manuscriptSession = archive.getEditorSession()
     return manuscriptSession.keyboardManager.onKeydown(event)
   }
 }
@@ -92,11 +90,10 @@ class DesktopApp extends ChromeApp {
     }
   }
 
-  _loadArchive (key, context) {
-    console.log('load archive', key)
+  _loadArchive (context) {
     // We do not want to use Dar - we want to load hyper-readings
     // console.log('archiveId', key)
-    let archive = new HyperReaderArchive(context)
+    let archive = new HyperReaderArchive(this.props.hrManager, context)
     // HACK: this should be done earlier in the lifecycle (after first didMount)
     // and later disposed properly. However we can accept this for now as
     // the app lives as a singleton atm.
@@ -104,7 +101,8 @@ class DesktopApp extends ChromeApp {
     // archive.on('archive:changed', this._archiveChanged, this)
     // console.log('archiveId', key)
     // console.log('sssss')
-    return archive.load(key)
+    return archive
+    // return archive.load(key)
   }
 
   _handleKeyDown (event) {

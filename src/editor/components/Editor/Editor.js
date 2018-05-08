@@ -15,7 +15,7 @@ class Editor extends AbstractEditor {
     console.log('mounted viewer')
   }
   render ($$) {
-    console.log('RENDER', this.doc.get('body'))
+    console.log('RENDER')
     let SplitPane = this.getComponent('split-pane')
     let el = $$('div').addClass('sc-simple-writer')
     let ScrollPane = this.getComponent('scroll-pane')
@@ -23,9 +23,7 @@ class Editor extends AbstractEditor {
     let ContextMenu = this.getComponent('context-menu')
     let Dropzones = this.getComponent('dropzones')
     let Body = this.getComponent('body')
-        // console.log('manager', this.commandManager)
     let configurator = this.props.editorSession.getConfigurator()
-    console.log(configurator)
     let contentPanel = $$(ScrollPane, {
       scrollbarPosition: 'right',
       highlights: this.contentHighlights
@@ -34,7 +32,6 @@ class Editor extends AbstractEditor {
         disabled: this.props.disabled,
         node: this.doc.get('body'),
         commands: configurator.getSurfaceCommandNames()
-        // textTypes: configurator.getTextTypes()
       }).ref('body'),
       $$(Overlay, {
         toolPanel: configurator.getToolPanel('main-overlay'),

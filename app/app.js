@@ -12,6 +12,8 @@ const ipc = require('electron').ipcRenderer
 const url = require('url')
 const path = require('path')
 const remote = require('electron').remote
+
+const HyperReadingsManager = require('hyper-readings-manager')
 const { shell } = remote
 
 // HACK: we should find a better solution to intercept window.open calls
@@ -23,7 +25,7 @@ window.open = function (url /* , frameName, features */) {
 window.addEventListener('load', () => {
   substanceGlobals.DEBUG_RENDERING = platform.devtools
   DesktopApp.mount({
-    key: getQueryStringParam('archiveDir'),
+    hrManager: new HyperReadingsManager(getQueryStringParam('archiveDir')),
     ipc,
     url,
     path,

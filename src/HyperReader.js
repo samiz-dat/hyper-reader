@@ -1,12 +1,11 @@
 import { Component } from 'substance'
 import EditorPackage from './editor/EditorPackage'
+import IndexPage from './IndexPage'
 
 export default class HyperReader extends Component {
   constructor (...args) {
     super(...args)
-    const archive = this.props.archive
-    this.manuscriptSession = archive.getEditorSession('manuscript')
-    this.configurator = this.manuscriptSession.getConfigurator()
+    this.configurator = this.props.archive.getConfigurator()
   }
 
   getChildContext () {
@@ -17,14 +16,37 @@ export default class HyperReader extends Component {
     }
   }
 
-  render ($$) {
-    console.log('render HyperReader')
-    let el = $$('div').addClass('sc-reader')
-    el.append(
-      $$(EditorPackage.Editor, {
-        editorSession: this.manuscriptSession
+  onNew () {
+    const { archive } = this.props
+    archive.new()
+      .then(() => {
+        console.log('new session')
+        this.rerender()
       })
-    )
+  }
+
+  getRoute ($$) {
+    const { archive } = this.props
+    const session = archive.getEditorSession()
+    let component = null
+    if (session) {
+      component = $$(EditorPackage.Editor, {
+        editorSession: session
+        // disabled: true
+      })
+    } else {
+      component = $$(IndexPage, {
+        list: archive.list(),
+        onNew: this.onNew.bind(this)
+      })
+    }
+    return component
+  }
+
+  render ($$) {
+    let el = $$('div').addClass('sc-reader')
+    const currentRoute = this.getRoute($$)
+    if (currentRoute) el.append(currentRoute)
     return el
   }
 

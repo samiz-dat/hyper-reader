@@ -1,25 +1,26 @@
 const electron = require('electron')
 const path = require('path')
 const url = require('url')
+const os = require('os')
+const fs = require('fs')
 
 const {
   app, ipcMain, dialog, shell,
   BrowserWindow, Menu
 } = electron
-const DAR_FOLDER = process.env.DAR_FOLDER
 const DEBUG = process.env.DEBUG
-const BLANK_DOCUMENT_FOLDER = path.join(__dirname, 'data/blank')
+const HYPER_READINGS_FOLDER = path.join(os.homedir(), 'hyper-readings/')
 
 // Keep a global reference of all the open windows
 let windows = []
 
-// TODO: Make sure the same dar folder can't be opened multiple times
-function createEditorWindow (darFolder, isNew) {
+// TODO: Make sure the same folder can't be opened multiple times
+function createEditorWindow (hrFolder, isNew) {
   // Create the browser window.
   let editorWindow = new BrowserWindow({ width: 1024, height: 768 })
 
   let query = {
-    archiveDir: darFolder
+    archiveDir: hrFolder
   }
 
   editorWindow.isSaved = true
@@ -85,11 +86,7 @@ function createEditorWindow (darFolder, isNew) {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createMenu()
-  if (DAR_FOLDER) {
-    createEditorWindow(DAR_FOLDER)
-  } else {
-    openNew()
-  }
+  openNew()
 })
 
 // Quit when all windows are closed.
@@ -105,7 +102,7 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (windows.length === 0) {
-    promptOpen()
+    openNew()
   }
 })
 
@@ -126,7 +123,7 @@ function createMenu () {
           label: 'Open',
           accelerator: 'CommandOrControl+O',
           click () {
-            promptOpen()
+            // promptOpen()
           }
         },
         {
@@ -215,30 +212,33 @@ function createMenu () {
   Menu.setApplicationMenu(menu)
 }
 
-function promptOpen () {
-  dialog.showOpenDialog({
-    properties: ['openDirectory']
-  }, (dirPaths) => {
-    if (dirPaths) {
-      dirPaths.forEach(dirPath => {
-        console.info('opening Dar: ', dirPath)
-        createEditorWindow(dirPath)
-      })
-    }
-  })
-}
+// function promptOpen () {
+//   dialog.showOpenDialog({
+//     properties: ['openDirectory']
+//   }, (dirPaths) => {
+//     if (dirPaths) {
+//       dirPaths.forEach(dirPath => {
+//         console.info('opening Dar: ', dirPath)
+//         createEditorWindow(dirPath)
+//       })
+//     }
+//   })
+// }
 
 function openNew () {
-  createEditorWindow(BLANK_DOCUMENT_FOLDER, true)
+  if (!fs.existsSync(HYPER_READINGS_FOLDER)) {
+    fs.mkdirSync(HYPER_READINGS_FOLDER)
+  }
+  createEditorWindow(HYPER_READINGS_FOLDER, true)
 }
 
 function save () {
   let focusedWindow = BrowserWindow.getFocusedWindow()
-  if (focusedWindow.isNew) {
-    saveAs()
-  } else {
-    focusedWindow.webContents.send('document:save')
-  }
+  // if (focusedWindow.isNew) {
+  //   saveAs()
+  // } else {
+  focusedWindow.webContents.send('document:save')
+  // }
 }
 
 function saveAs () {
