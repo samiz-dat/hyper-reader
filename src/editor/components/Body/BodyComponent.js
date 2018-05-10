@@ -4,7 +4,7 @@ class BodyComponent extends Component {
   render ($$) {
     let node = this.props.node
     let el = $$('div')
-      .addClass('sc-body')
+      .addClass('sc-article')
       .attr('data-id', this.props.node.id)
 
     el.append(

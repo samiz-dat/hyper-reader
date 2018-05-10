@@ -20,15 +20,15 @@
   padding: 20px;
 }
 
-.sg-actions > button {
+.sg-actions > .sc-button {
   display: inline-block;
   margin-left: 10px;
 }
 
-.sg-actions > button.sm-secondary {
+.sc-button.sm-secondary {
   background: #606060;
 }
 
-.sg-actions > button.sm-secondary:hover {
+.sc-button.sm-secondary:hover {
   background: #404040;
 }
