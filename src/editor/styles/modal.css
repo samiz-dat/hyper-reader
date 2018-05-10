@@ -1,0 +1,24 @@
+.sc-modal-dialog {
+  z-index: 500000;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow: auto;
+  background: rgba(0,0,0,0.7);
+}
+
+.sc-modal-dialog .se-body {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 25px 0 rgba(0,0,0,0.8);
+}
+.sc-modal-dialog.sm-width-small .se-body { max-width: var(--small-layout-width); }
+.sc-modal-dialog.sm-width-medium .se-body { max-width: var(--medium-layout-width); }
+.sc-modal-dialog.sm-width-large .se-body { max-width: var(--large-layout-width); }

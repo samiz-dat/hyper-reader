@@ -14,6 +14,8 @@ import HyperReaderArticlePackage from '../article/HyperReaderArticlePackage'
 import BodyPackage from './components/Body/BodyPackage'
 import CommentPackage from './components/Comment/CommentPackage'
 import NestPackage from './components/Nest/NestPackage'
+import SaveCommand from './commands/SaveCommand'
+import CloseCommand from './commands/CloseCommand'
 
 function configure (config) {
   config.import(HyperReaderArticlePackage)
@@ -32,8 +34,15 @@ function configure (config) {
 
   // custom nodes
   config.import(BodyPackage)
-  config.import(CommentPackage, {toolGroup: 'annotations'})
+  config.import(CommentPackage)
   config.import(NestPackage)
+
+  config.addCommand('save-command', SaveCommand, { commandGroup: 'editor-options' })
+  config.addLabel('save-command', 'Save')
+  config.addIcon('save-command', { 'fontawesome': 'fa-save' })
+  config.addCommand('close', CloseCommand, { commandGroup: 'editor-options' })
+  config.addLabel('close', 'Close')
+  config.addIcon('close', { 'fontawesome': 'fa-window-close' })
 
   config.addToolPanel('toolbar', [
     {
@@ -63,6 +72,13 @@ function configure (config) {
       showDisabled: true,
       style: 'minimal',
       commandGroups: ['insert-nest']
+    },
+    {
+      name: 'options',
+      type: 'tool-group',
+      showDisabled: true,
+      style: 'minimal',
+      commandGroups: ['editor-options']
     }
   ])
   config.addToolPanel('main-overlay', [
