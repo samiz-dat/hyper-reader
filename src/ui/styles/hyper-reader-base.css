@@ -1,4 +1,32 @@
 /*
+  Atomic css
+*/
+
+/* Typography */
+.a-right {
+  text-align: right;
+}
+.a-left {
+  text-align: left;
+}
+.a-center {
+  text-align: center;
+}
+
+/* Display */
+
+.a-inline {
+  display: inline;
+}
+.a-block {
+  display: block;
+}
+
+.a-m1 {
+  margin: 1rem;
+}
+
+/*
   Big Button style
 */
 .sc-button.sm-style-big {
