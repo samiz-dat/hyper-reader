@@ -12,6 +12,7 @@ export default class HyperReaderArchive {
   // injecting the HyperReadings library into the Archive
   constructor (hrManager) {
     this.manager = hrManager
+    hrManager.on('ready', () => this.update())
     this.session = null
     this.selected = null
     this._setupConfigurator()
