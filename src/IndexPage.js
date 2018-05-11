@@ -1,5 +1,6 @@
 import { Component } from 'substance'
 import ListItem from './ui/components/ListItem'
+
 export default class IndexPage extends Component {
   // constructor (...args) {
   //   super(...args)

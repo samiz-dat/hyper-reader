@@ -27,20 +27,26 @@
 }
 
 /*
-  Big Button style
+  Button styles
 */
-.sc-button.sm-style-big {
-  font-size: 12px;
+.sc-button {
+  font-size: 10px;
   background: #2A8CFF;
   font-family: 'Avenir Next', 'Lato', Helvetica;
   font-weight: 500;
-  padding: 5px 20px;
+  padding: 5px 10px;
   color: white;
   border-radius: 20px;
 }
 
-.sc-button.sm-style-big:hover {
+.sc-button:hover {
   background: #277ce0;
+}
+
+.sc-button.sm-style-big {
+  font-size: 12px;
+  padding: 5px 20px;
+  border-radius: 20px;
 }
 
 .sg-actions {
