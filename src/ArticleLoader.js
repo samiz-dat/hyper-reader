@@ -1,5 +1,4 @@
 import { EditorSession, DefaultDOMElement } from 'substance'
-import EditorPackage from './editor/EditorPackage'
 
 function defaultDom () {
   const dom = DefaultDOMElement.createDocument()
@@ -13,7 +12,6 @@ function defaultDom () {
 
 export default {
   load: (dom, configurator, context) => {
-    configurator.import(EditorPackage)
     let importer = configurator.createImporter('html')
     let doc = importer.importDocument(dom || defaultDom())
     let editorSession = new EditorSession(doc, { configurator, context })

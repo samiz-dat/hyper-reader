@@ -1,6 +1,7 @@
 import { Configurator } from 'substance'
 import ArticleLoader from './ArticleLoader'
 import hr2Dom from './converter/hr2Dom'
+import EditorPackage from './editor/EditorPackage'
 
 /**
  *  TODO: Should move creation of hyper readings into here.
@@ -13,7 +14,12 @@ export default class HyperReaderArchive {
     this.manager = hrManager
     this.session = null
     this.selected = null
+    this._setupConfigurator()
+  }
+
+  _setupConfigurator () {
     this.configurator = new Configurator()
+    this.configurator.import(EditorPackage)
   }
 
   getConfigurator () {
