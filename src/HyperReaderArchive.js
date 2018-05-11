@@ -26,6 +26,21 @@ export default class HyperReaderArchive {
     return this.configurator
   }
 
+  onUpdate (handler) {
+    this.updateHandler = handler
+  }
+
+  update () {
+    if (this.updateHandler) this.updateHandler()
+  }
+
+  closeSession () {
+    console.log('closed')
+    this.session = null
+    this.selected = null
+    this.update()
+  }
+
   getEditorSession () {
     return this.session
   }
@@ -42,6 +57,7 @@ export default class HyperReaderArchive {
   async new (name) {
     // get new empty session
     this.session = ArticleLoader.load(null, this.configurator, { archive: this })
+    this.update()
     return this
   }
 

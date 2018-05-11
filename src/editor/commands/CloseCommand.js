@@ -5,11 +5,12 @@ export default class CloseCommand extends Command {
     return { disabled: false }
   }
   execute (params, context) {
-    console.log('close', params, context)
-    // this.send('session:close')
+    const { editorSession } = params
+    const editor = editorSession.getEditor()
+    if (editorSession.hasUnsavedChanges()) {
+      editor.extendState({ edit: 'close' })
+    } else {
+      context.archive.closeSession()
+    }
   }
-
-  // createNode (tx) { // eslint-disable-line
-  //   throw new Error('This method is abstract')
-  // }
 }

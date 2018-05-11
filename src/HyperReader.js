@@ -6,6 +6,7 @@ export default class HyperReader extends Component {
   constructor (...args) {
     super(...args)
     this.configurator = this.props.archive.getConfigurator()
+    this.props.archive.onUpdate(() => this.rerender())
   }
 
   getChildContext () {
@@ -19,10 +20,6 @@ export default class HyperReader extends Component {
   onNew () {
     const { archive } = this.props
     archive.new()
-      .then(() => {
-        console.log('new session')
-        this.rerender()
-      })
   }
 
   getRoute ($$) {
