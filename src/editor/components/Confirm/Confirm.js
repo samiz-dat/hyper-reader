@@ -8,7 +8,7 @@ export default class Confirm extends Component {
     } = this.props
     if (!onConfirm) return
     return $$('button')
-      .addClass('a-inline sc-button sm-style-big')
+      .addClass('a-inline hr-button sm-style-big')
       .append(confirmText || 'Yes')
       .on('click', onConfirm)
   }
@@ -18,7 +18,7 @@ export default class Confirm extends Component {
       onCancel
     } = this.props
     return $$('button')
-      .addClass('a-inline sc-button sm-style-big sm-secondary')
+      .addClass('a-inline hr-button sm-style-big sm-secondary')
       .append(cancelText || 'No')
       .on('click', () => {
         if (onCancel) onCancel()

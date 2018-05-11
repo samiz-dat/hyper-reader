@@ -13,7 +13,7 @@ export default class HyperReader extends Component {
     const configurator = this.configurator
     return {
       configurator,
-      urlResolver: this.props.archive
+      archive: this.props.archive
     }
   }
 

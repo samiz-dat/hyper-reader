@@ -71,7 +71,7 @@ class Editor extends AbstractEditor {
     })
     const confirm = $$(Confirm, {
       content: 'Are you sure you want to quit?',
-      onConfirm: () => {}
+      onConfirm: () => { this.context.archive.closeSession() }
     })
     modal.append(confirm)
     return modal

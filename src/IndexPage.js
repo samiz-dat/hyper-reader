@@ -12,11 +12,11 @@ export default class IndexPage extends Component {
       $$('div')
         .addClass('sg-actions').append(
           $$('button')
-            .addClass('sc-button sm-style-big')
+            .addClass('hr-button sm-style-big')
             .append('New')
             .on('click', onNew),
           $$('button')
-            .addClass('sc-button sm-style-big sm-secondary')
+            .addClass('hr-button sm-style-big sm-secondary')
             .append('Cancel')
             .on('click', () => { console.log('cancel') })
         )

@@ -29,7 +29,7 @@
 /*
   Button styles
 */
-.sc-button {
+.hr-button {
   font-size: 10px;
   background: #2A8CFF;
   font-family: 'Avenir Next', 'Lato', Helvetica;
@@ -39,11 +39,11 @@
   border-radius: 20px;
 }
 
-.sc-button:hover {
+.hr-button:hover {
   background: #277ce0;
 }
 
-.sc-button.sm-style-big {
+.hr-button.sm-style-big {
   font-size: 12px;
   padding: 5px 20px;
   border-radius: 20px;
@@ -54,15 +54,15 @@
   padding: 20px;
 }
 
-.sg-actions > .sc-button {
+.sg-actions > .hr-button {
   display: inline-block;
   margin-left: 10px;
 }
 
-.sc-button.sm-secondary {
+.hr-button.sm-secondary {
   background: #606060;
 }
 
-.sc-button.sm-secondary:hover {
+.hr-button.sm-secondary:hover {
   background: #404040;
 }
