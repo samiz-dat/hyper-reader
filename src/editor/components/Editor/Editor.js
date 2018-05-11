@@ -1,5 +1,6 @@
 import { AbstractEditor, Toolbar, Highlights } from 'substance'
 import Modal from '../Modal/Modal'
+import Confirm from '../Confirm/Confirm'
 /**
   We extend from AbstractEditor which provides an abstract implementation
   that should be feasible for most editors.
@@ -21,7 +22,7 @@ class Editor extends AbstractEditor {
   }
 
   getInitialState () {
-    return { edit: 'this' }
+    return { edit: null }
   }
 
   _renderToolPanel ($$) {
@@ -65,10 +66,14 @@ class Editor extends AbstractEditor {
 
   _renderModal ($$) {
     var modal = $$(Modal, {
-      width: 'medium',
+      width: 'small',
       textAlign: 'center'
     })
-    modal.append('content')
+    const confirm = $$(Confirm, {
+      content: 'Are you sure you want to quit?',
+      onConfirm: () => {}
+    })
+    modal.append(confirm)
     return modal
   }
 
