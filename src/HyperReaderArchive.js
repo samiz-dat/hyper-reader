@@ -50,6 +50,13 @@ export default class HyperReaderArchive {
     return this.manager.list()
   }
 
+  async remove (key) {
+    await this.manager.remove(key)
+    console.log('removed')
+    this.update()
+    console.log('updated')
+  }
+
   getTitle () {
     let title = 'Untitled'
     return title

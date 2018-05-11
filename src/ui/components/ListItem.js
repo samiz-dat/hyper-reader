@@ -7,7 +7,7 @@ export default class ListItem extends Component {
     el.append(
       $$('div').append('key:' + this.props.key),
       $$('button').addClass('hr-button a-inline').append('open').on('click', () => { this.send('hr:open', { key }) }),
-      $$('button').addClass('hr-button sm-secondary a-inline').append('delete').on('click', () => { this.send('hr:remove', { key }) })
+      $$('button').addClass('hr-button sm-secondary a-inline').append('remove').on('click', () => { this.send('hr:remove', { key }) })
     )
     return el
   }

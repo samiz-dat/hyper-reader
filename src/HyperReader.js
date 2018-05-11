@@ -5,8 +5,13 @@ import IndexPage from './IndexPage'
 export default class HyperReader extends Component {
   constructor (...args) {
     super(...args)
-    this.configurator = this.props.archive.getConfigurator()
-    this.props.archive.onUpdate(() => this.rerender())
+    const { archive } = this.props
+    this.configurator = archive.getConfigurator()
+    archive.onUpdate(() => this.rerender())
+    this.handleActions({
+      'hr:open': () => console.log('opens'),
+      'hr:remove': (data) => archive.remove(data.key)
+    })
   }
 
   getChildContext () {
@@ -41,6 +46,7 @@ export default class HyperReader extends Component {
   }
 
   render ($$) {
+    console.log('rerendering')
     let el = $$('div').addClass('sc-reader')
     const currentRoute = this.getRoute($$)
     if (currentRoute) el.append(currentRoute)
