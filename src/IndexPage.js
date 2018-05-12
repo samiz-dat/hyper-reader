@@ -14,11 +14,7 @@ export default class IndexPage extends Component {
           $$('button')
             .addClass('hr-button sm-style-big')
             .append('New')
-            .on('click', onNew),
-          $$('button')
-            .addClass('hr-button sm-style-big sm-secondary')
-            .append('Cancel')
-            .on('click', () => { console.log('cancel') })
+            .on('click', onNew)
         )
     )
     if (list && list.length > 0) {
