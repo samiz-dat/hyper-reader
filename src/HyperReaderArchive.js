@@ -91,6 +91,12 @@ export default class HyperReaderArchive {
       })
   }
 
+  async createEmptyReadingList (name) {
+    if (!this.selected) return
+    const hr = await this.manager.new(name)
+    this.selected = hr.key
+  }
+
   async save () {
     let doc = this.session.getDocument()
     console.log('save', doc.toJSON())
