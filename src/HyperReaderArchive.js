@@ -1,6 +1,7 @@
 import { Configurator } from 'substance'
 import ArticleLoader from './ArticleLoader'
 import hr2Dom from './converter/hr2Dom'
+import json2Hr from './converter/json2Hr'
 import EditorPackage from './editor/EditorPackage'
 
 class SaveHandler {
@@ -98,9 +99,14 @@ export default class HyperReaderArchive {
   }
 
   async save () {
+    if (!this.selected) return
     let doc = this.session.getDocument()
+    let hrInfo = this.manager.get(this.selected)
+    if (!hrInfo) { // document does not exist
+      throw new Error('HyperReadings document does not exist')
+    }
     console.log('save', doc.toJSON())
-    // process document
+    return json2Hr(hrInfo.hr, doc.toJSON())
   }
 
   /** Load hyperreadings as a Substance Document
