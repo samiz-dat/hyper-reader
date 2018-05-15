@@ -3,6 +3,14 @@
 */
 
 /* Typography */
+.a-serif {
+  font-family: 'Georgia';
+}
+
+.a-sans {
+  font-family: 'Avenir Next', 'Lato', Helvetica;
+}
+
 .a-right {
   text-align: right;
 }
@@ -21,6 +29,9 @@
   font-weight: 900;
 }
 
+.a-b0 {
+  border: none;
+}
 .a-ba {
   border: black solid thin;
 }
@@ -37,7 +48,13 @@
   display: block;
 }
 .a-flex {
-  display: inline;
+  display: flex;
+}
+.a-stretch-content {
+  justify-content: stretch;
+}
+.a-grow-1 {
+  flex-grow: 1;
 }
 
 .a-m1 {
