@@ -1,10 +1,10 @@
 import { Command } from 'substance'
 
 export default class SaveCommand extends Command {
-  getCommandState (params) {
-    // console.log('has changed', params.editorSession.hasDocumentChanged())
-    // TODO: preserve this state so once set its not unset until document is saved
-    return { disabled: !params.editorSession.hasDocumentChanged(), active: false }
+  getCommandState (params, context) {
+    const unsaved = params.editorSession.hasUnsavedChanges()
+    const newReadingList = context.archive.isNew()
+    return { disabled: !(unsaved || newReadingList), active: false }
   }
   execute (params, context) {
     console.log('params', params)
