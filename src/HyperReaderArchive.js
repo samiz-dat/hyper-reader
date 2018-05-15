@@ -3,11 +3,14 @@ import ArticleLoader from './ArticleLoader'
 import hr2Dom from './converter/hr2Dom'
 import EditorPackage from './editor/EditorPackage'
 
-/**
- *  TODO: Should move creation of hyper readings into here.
- *  HyperReadingsImport should just be concerned with interpreting
- *  hyper readings into initial dom elements
- */
+class SaveHandler {
+  saveDocument ({ editorSession }) {
+    const { archive } = editorSession.getContext()
+    if (!archive) return Promise.resolve()
+    return archive.save()
+  }
+}
+
 export default class HyperReaderArchive {
   // injecting the HyperReadings library into the Archive
   constructor (hrManager) {
@@ -20,6 +23,7 @@ export default class HyperReaderArchive {
 
   _setupConfigurator () {
     this.configurator = new Configurator()
+    this.configurator.setSaveHandlerClass(SaveHandler)
     this.configurator.import(EditorPackage)
   }
 
