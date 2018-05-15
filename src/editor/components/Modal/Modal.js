@@ -36,7 +36,7 @@ export default class Modal extends Component {
 
     el.append(
       $$('div').addClass('se-body').append(
-        this.props.children
+        [this.props.title && $$('div').addClass('').append(this.props.title), ...this.props.children]
       )
     )
     return el
