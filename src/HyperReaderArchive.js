@@ -86,6 +86,7 @@ export default class HyperReaderArchive {
         // data.editorSession.onUpdate('document', (change) => {
         //   console.log('cccc', change)
         // }, this)
+        this.update()
         return this
       })
   }
