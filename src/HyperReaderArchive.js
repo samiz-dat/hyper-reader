@@ -60,9 +60,7 @@ export default class HyperReaderArchive {
 
   async remove (key) {
     await this.manager.remove(key)
-    console.log('removed')
     this.update()
-    console.log('updated')
   }
 
   getTitle () {
