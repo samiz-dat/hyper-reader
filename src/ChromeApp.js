@@ -81,11 +81,8 @@ class AppChrome extends Component {
     but passed down to editor toolbars.
   */
   _save () {
-    this.state.archive.save().then(() => {
-      this._updateTitle(false)
-    }).catch(err => {
-      console.error(err)
-    })
+    const session = this.state.archive.getEditorSession()
+    if (session) return session.save()
   }
 
   _updateTitle () {
