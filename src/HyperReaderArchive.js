@@ -46,6 +46,10 @@ export default class HyperReaderArchive {
     return this.session
   }
 
+  isNew () {
+    return this.selected === 'new'
+  }
+
   list () {
     return this.manager.list()
   }
@@ -65,6 +69,7 @@ export default class HyperReaderArchive {
   async new (name) {
     // get new empty session
     this.session = ArticleLoader.load(null, this.configurator, { archive: this })
+    this.selected = 'new'
     this.update()
     return this
   }
