@@ -9,8 +9,8 @@ export default class HyperReader extends Component {
     this.configurator = archive.getConfigurator()
     archive.onUpdate(() => this.rerender())
     this.handleActions({
-      'hr:open': () => console.log('opens'),
-      'hr:remove': (data) => archive.remove(data.key)
+      'hr:open': (data) => archive.load(data.key),
+      'hr:remove': (data) => archive.remove(data.key) // TODO: add confirmation dialogue
     })
   }
 
