@@ -40,9 +40,11 @@ function configure (config) {
   config.addCommand('save-command', SaveCommand, { commandGroup: 'editor-options' })
   config.addLabel('save-command', 'Save')
   config.addIcon('save-command', { 'fontawesome': 'fa-save' })
+  config.addKeyboardShortcut('CommandOrControl+s', { command: 'save-command' })
   config.addCommand('close', CloseCommand, { commandGroup: 'editor-options' })
   config.addLabel('close', 'Close')
   config.addIcon('close', { 'fontawesome': 'fa-window-close' })
+  config.addKeyboardShortcut('CommandOrControl+w', { command: 'close' })
 
   config.addToolPanel('toolbar', [
     {
