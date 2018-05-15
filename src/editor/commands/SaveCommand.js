@@ -7,9 +7,24 @@ export default class SaveCommand extends Command {
     return { disabled: !(unsaved || newReadingList), active: false }
   }
   execute (params, context) {
-    console.log('params', params)
-    console.log('context', context)
-    const editor = params.editorSession.getEditor()
-    editor.extendState({ edit: 'confirm' })
+    const { archive } = context
+    const { editorSession } = params
+    if (archive.isNew()) {
+      // need to ask for new name
+      const editor = editorSession.getEditor()
+      editor.extendState({ showModal: 'saveNew' })
+      return
+    }
+    console.log('saving')
+    editorSession.save()
+      .then(() => {
+        console.log('saved')
+      })
+    // archive.save()
+    //   .then(() => {
+    //     console.log('saved')
+    //   })
+    // const editor = params.editorSession.getEditor()
+    // editor.extendState({ edit: 'confirm' })
   }
 }

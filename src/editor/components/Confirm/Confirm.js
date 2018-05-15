@@ -27,11 +27,9 @@ export default class Confirm extends Component {
   }
 
   render ($$) {
-    const { content } = this.props
     let el = $$('div').addClass('sc-confirmation')
-
     el.append(
-      $$('div').addClass('a-center').append(content),
+      $$('div').addClass('a-center').append(this.props.children),
       $$('div').addClass('a-center').append(
         this._renderPrimaryButton($$),
         this._renderSecondaryButton($$)
