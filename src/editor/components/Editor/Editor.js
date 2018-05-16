@@ -10,6 +10,9 @@ class Editor extends AbstractEditor {
   didMount () {
     super.didMount()
     let editorSession = this.getEditorSession()
+    if (this.context.archive.isNew()) {
+      editorSession._hasUnsavedChanges = true
+    }
     // attach editor to enable forced rerenders
     let doc = editorSession.getDocument()
     this.contentHighlights = new Highlights(doc)
