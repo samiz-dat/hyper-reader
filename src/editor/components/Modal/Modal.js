@@ -47,8 +47,8 @@ export default class Modal extends Component {
   }
 
   _closeModal (e) {
-    e.preventDefault()
-    e.stopPropagation()
+    // e.preventDefault()
+    // e.stopPropagation()
     let closeSurfaceClick = e.target.classList.contains('sc-modal-dialog')
     if (closeSurfaceClick) {
       this.send('closeModal')

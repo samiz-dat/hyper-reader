@@ -17,7 +17,9 @@ export default class Button extends Component {
     const colors = colorMap[status || 'primary']
     const sizeStyle = sizeMap[size || 'medium']
     const iconPadding = text ? (size === 'small' ? 'pr1' : 'pr2') : ''
-    const el = $$('button').attr({ type }).addClass(`a-inline sans mh1 ${sizeStyle} ${colors}`)
+    const el = $$('button')
+      .attr({ type })
+      .addClass(`a-inline sans mh1 ${sizeStyle} ${colors}`)
     const i = icon && $$('i').addClass(`${iconPadding} fa fa-${icon}`)
     el.append(i, text)
     return el

@@ -33,7 +33,10 @@ function extractValuesFromForm (form) {
 
 class Form extends Component {
   render ($$) {
-    let el = $$('form').addClass('sc-form').ref('form')
+    let el = $$('form')
+      .attr({ method: 'post', action: '/', role: 'Form' })
+      .addClass('sc-form')
+      .ref('form')
     el.append(this.props.children)
     el.on('submit', (e) => this._onSubmit(e))
     return el

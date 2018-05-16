@@ -77,6 +77,11 @@ export default class HyperReaderArchive {
     return this
   }
 
+  async import (key, name) {
+    await this.manager.import(key, name)
+    this.update()
+  }
+
   async load (key) {
     return this._load(key)
       .then((session) => {

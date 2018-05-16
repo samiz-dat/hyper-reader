@@ -5,7 +5,8 @@ import IndexPage from './IndexPage'
 import Modal from './editor/components/Modal/Modal'
 
 const modals = {
-  'confirm-delete': ConfirmDelete
+  'confirm-delete': ConfirmDelete,
+  import: ImportByKey
 }
 
 export default class HyperReader extends Component {
@@ -15,21 +16,25 @@ export default class HyperReader extends Component {
     this.configurator = archive.getConfigurator()
     archive.onUpdate(() => this.rerender())
     this.handleActions({
-      'closeModal': () => {
-        this.extendState({ modal: null })
-      },
+      'closeModal': () => this.extendState({ modal: null }),
+      // actions on h
       'hr:new': () => archive.new(),
-      'hr:import': () => archive.new(),
+      'hr:import': () => this.extendState({ 'modal': {
+        type: 'import',
+        props: {},
+        options: {
+          width: 'small',
+          title: 'Import New Reading List by Key?'
+        }
+      }}),
       'hr:open': (data) => archive.load(data.key),
       'hr:reveal': (data) => shell.showItemInFolder(data.folder),
       'hr:remove': (data) => {
-        console.log('data', data)
         this.extendState({ 'modal': {
           type: 'confirm-delete',
           props: { key: data.key },
           options: {
             width: 'small',
-            textAlign: 'center',
             title: 'Remove Reading List?'
           }
         }})
@@ -76,7 +81,6 @@ export default class HyperReader extends Component {
     const currentRoute = this.getRoute($$)
     const currentModal = this.getModal($$)
     if (currentRoute) el.append(currentRoute)
-    console.log(currentModal)
     if (currentModal) el.append(currentModal)
     return el
   }
