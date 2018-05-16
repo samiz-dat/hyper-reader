@@ -5,13 +5,14 @@ import IndexPage from './IndexPage'
 export default class HyperReader extends Component {
   constructor (...args) {
     super(...args)
-    const { archive } = this.props
+    const { archive, shell } = this.props
     this.configurator = archive.getConfigurator()
     archive.onUpdate(() => this.rerender())
     this.handleActions({
       'hr:new': () => archive.new(),
       'hr:import': () => archive.new(),
       'hr:open': (data) => archive.load(data.key),
+      'hr:reveal': (data) => shell.showItemInFolder(data.folder),
       'hr:remove': (data) => archive.remove(data.key) // TODO: add confirmation dialogue
     })
   }

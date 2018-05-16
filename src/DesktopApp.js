@@ -12,7 +12,7 @@ function _renderHyperReaderApp ($$, app) {
   let { archive, error } = app.state
   if (archive) {
     el.append(
-      $$(HyperReader, { archive })
+      $$(HyperReader, { archive, shell: app.props.shell })
     )
   } else if (error) {
     el.append(
@@ -101,6 +101,7 @@ class DesktopApp extends ChromeApp {
     // archive.on('archive:changed', this._archiveChanged, this)
     // console.log('archiveId', key)
     // console.log('sssss')
+
     return archive
     // return archive.load(key)
   }
