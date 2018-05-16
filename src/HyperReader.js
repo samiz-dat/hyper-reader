@@ -1,10 +1,15 @@
 import { Component } from 'substance'
 import EditorPackage from './editor/EditorPackage'
-import ConfirmDelete from './editor/components/Modals/ConfirmDelete'
-import IndexPage from './IndexPage'
 import Modal from './editor/components/Modal/Modal'
+import SaveAs from './editor/components/Modals/SaveAs'
+import ConfirmDelete from './editor/components/Modals/ConfirmDelete'
+import ConfirmClose from './editor/components/Modals/ConfirmClose'
+import ImportByKey from './editor/components/Modals/ImportByKey'
+import IndexPage from './IndexPage'
 
 const modals = {
+  'save-as': SaveAs,
+  'confirm-close': ConfirmClose,
   'confirm-delete': ConfirmDelete,
   import: ImportByKey
 }
@@ -17,7 +22,22 @@ export default class HyperReader extends Component {
     archive.onUpdate(() => this.rerender())
     this.handleActions({
       'closeModal': () => this.extendState({ modal: null }),
-      // actions on h
+      'hr:saveAs': () => this.extendState({ 'modal': {
+        type: 'save-as',
+        props: {},
+        options: {
+          width: 'small',
+          title: 'Save New Reading List'
+        }
+      }}),
+      'hr:confirmClose': () => this.extendState({ 'modal': {
+        type: 'confirm-close',
+        props: {},
+        options: {
+          width: 'small',
+          title: 'Close'
+        }
+      }}),
       'hr:new': () => archive.new(),
       'hr:import': () => this.extendState({ 'modal': {
         type: 'import',

@@ -8,7 +8,7 @@ export default class CloseCommand extends Command {
     const { editorSession } = params
     const editor = editorSession.getEditor()
     if (editorSession.hasUnsavedChanges()) {
-      editor.extendState({ showModal: 'close' })
+      editor.send('hr:confirmClose')
     } else {
       context.archive.closeSession()
     }

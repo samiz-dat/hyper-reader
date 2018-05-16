@@ -12,7 +12,7 @@ export default class SaveCommand extends Command {
     if (archive.isNew()) {
       // need to ask for new name
       const editor = editorSession.getEditor()
-      editor.extendState({ showModal: 'saveNew' })
+      editor.send('hr:saveAs')
       return
     }
     console.log('saving')

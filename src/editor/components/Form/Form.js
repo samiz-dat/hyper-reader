@@ -45,6 +45,7 @@ class Form extends Component {
   _onSubmit (e) {
     e.preventDefault()
     e.stopPropagation()
+    console.log('sub')
     if (!this.props.onSubmit) return
     // although can also use e.target rather than ref.el.el
     const data = extractValuesFromForm(this.refs['form'].el.el)
