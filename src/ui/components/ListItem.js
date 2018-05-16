@@ -3,11 +3,13 @@ import Button from '../../editor/components/Button/Button'
 
 export default class ListItem extends Component {
   render ($$) {
-    let el = $$('div')
-    const { key } = this.props
+    const { key, title } = this.props
+    let el = $$('div').addClass('pa3')
     el.append(
-      $$('div').append('key:' + this.props.key),
+      $$('div').addClass('sans f6 w700').append(title || 'untitled'),
+      $$('div').addClass('mono f7').append(key),
       $$(Button, { text: 'Open', icon: 'edit', size: 'small' }).on('click', () => { this.send('hr:open', { key }) }),
+      $$(Button, { text: 'Show', icon: 'folder', size: 'small', status: 'secondary' }).on('click', () => { this.send('hr:reveal', { key }) }),
       $$(Button, { icon: 'trash', size: 'small', status: 'secondary' }).on('click', () => { this.send('hr:remove', { key }) })
     )
     return el
