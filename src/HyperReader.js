@@ -9,6 +9,8 @@ export default class HyperReader extends Component {
     this.configurator = archive.getConfigurator()
     archive.onUpdate(() => this.rerender())
     this.handleActions({
+      'hr:new': () => archive.new(),
+      'hr:import': () => archive.new(),
       'hr:open': (data) => archive.load(data.key),
       'hr:remove': (data) => archive.remove(data.key) // TODO: add confirmation dialogue
     })
@@ -22,11 +24,6 @@ export default class HyperReader extends Component {
     }
   }
 
-  onNew () {
-    const { archive } = this.props
-    archive.new()
-  }
-
   getRoute ($$) {
     const { archive } = this.props
     const session = archive.getEditorSession()
@@ -37,10 +34,7 @@ export default class HyperReader extends Component {
         // disabled: true
       })
     } else {
-      component = $$(IndexPage, {
-        list: archive.list(),
-        onNew: this.onNew.bind(this)
-      })
+      component = $$(IndexPage, { list: archive.list() })
     }
     return component
   }

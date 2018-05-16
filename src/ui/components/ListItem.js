@@ -1,4 +1,5 @@
 import { Component } from 'substance'
+import Button from '../../editor/components/Button/Button'
 
 export default class ListItem extends Component {
   render ($$) {
@@ -6,8 +7,8 @@ export default class ListItem extends Component {
     const { key } = this.props
     el.append(
       $$('div').append('key:' + this.props.key),
-      $$('button').addClass('hr-button a-inline').append('open').on('click', () => { this.send('hr:open', { key }) }),
-      $$('button').addClass('hr-button sm-secondary a-inline').append('remove').on('click', () => { this.send('hr:remove', { key }) })
+      $$(Button, { text: 'Open', icon: 'edit', size: 'small' }).on('click', () => { this.send('hr:open', { key }) }),
+      $$(Button, { icon: 'trash', size: 'small', status: 'secondary' }).on('click', () => { this.send('hr:remove', { key }) })
     )
     return el
   }

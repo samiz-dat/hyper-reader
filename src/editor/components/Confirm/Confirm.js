@@ -1,4 +1,5 @@
 import { Component } from 'substance'
+import Button from '../Button/Button'
 
 export default class Confirm extends Component {
   _renderPrimaryButton ($$) {
@@ -7,9 +8,7 @@ export default class Confirm extends Component {
       onConfirm
     } = this.props
     if (!onConfirm) return
-    return $$('button')
-      .addClass('a-inline hr-button sm-style-big')
-      .append(confirmText || 'Yes')
+    return $$(Button, { text: confirmText || 'Yes' })
       .on('click', onConfirm)
   }
   _renderSecondaryButton ($$) {
@@ -17,9 +16,7 @@ export default class Confirm extends Component {
       cancelText,
       onCancel
     } = this.props
-    return $$('button')
-      .addClass('a-inline hr-button sm-style-big sm-secondary')
-      .append(cancelText || 'No')
+    return $$(Button, { status: 'secondary', text: cancelText || 'No' })
       .on('click', () => {
         if (onCancel) onCancel()
         this.send('closeModal')
@@ -29,8 +26,8 @@ export default class Confirm extends Component {
   render ($$) {
     let el = $$('div').addClass('sc-confirmation')
     el.append(
-      $$('div').addClass('a-center').append(this.props.children),
-      $$('div').addClass('a-center').append(
+      $$('div').addClass('tc').append(this.props.children),
+      $$('div').addClass('tc').append(
         this._renderPrimaryButton($$),
         this._renderSecondaryButton($$)
       )

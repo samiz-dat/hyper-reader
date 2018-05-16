@@ -1,2 +1,6 @@
 @import './hyper-reader-reset.css';
+@import './_colors.css';
+@import './_spacing.css';
+@import './_skins.css';
+@import './_skins-pseudo.css';
 @import './hyper-reader-base.css';
