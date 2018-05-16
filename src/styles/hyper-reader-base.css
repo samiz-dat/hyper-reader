@@ -7,6 +7,16 @@
 .sans { font-family: 'Avenir Next', 'Lato', Helvetica, sans-serif; }
 .mono { font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
 
+
+.faa {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* size */
 
 .f1 { font-size: 3rem; }
@@ -26,15 +36,15 @@
 
 /* weight */
 
-.w100 { font-weight: 100; }
-.w200 { font-weight: 200; }
-.w300 { font-weight: 300; }
-.w400 { font-weight: 400; }
-.w500 { font-weight: 500; }
-.w600 { font-weight: 600; }
-.w700 { font-weight: 700; }
-.w800 { font-weight: 800; }
-.w900 { font-weight: 900; }
+.fw100 { font-weight: 100; }
+.fw200 { font-weight: 200; }
+.fw300 { font-weight: 300; }
+.fw400 { font-weight: 400; }
+.fw500 { font-weight: 500; }
+.fw600 { font-weight: 600; }
+.fw700 { font-weight: 700; }
+.fw800 { font-weight: 800; }
+.fw900 { font-weight: 900; }
 
 /* Borders */
 
@@ -65,8 +75,25 @@
 .a-block {
   display: block;
 }
+.table {
+  display: table;
+}
+.table-cell {
+  display: table-cell;
+}
 .a-flex {
   display: flex;
+}
+
+.abs {
+  position: absolute;
+}
+.rel {
+  position: relative;
+}
+
+.top-0 {
+  top: 0;
 }
 
 .a-stretch-content {
@@ -79,6 +106,17 @@
 .center {
   margin-right: auto;
   margin-left: auto;
+}
+
+.w-100 {
+  width: 100%;
+}
+.vh-100 {
+  height: 100vh;
+}
+
+.v-mid {
+  vertical-align: middle;
 }
 
 .mw-main { max-width: 760px }

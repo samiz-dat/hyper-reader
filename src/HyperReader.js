@@ -5,6 +5,7 @@ import SaveAs from './editor/components/Modals/SaveAs'
 import ConfirmDelete from './editor/components/Modals/ConfirmDelete'
 import ConfirmClose from './editor/components/Modals/ConfirmClose'
 import ImportByKey from './editor/components/Modals/ImportByKey'
+import Spinner from './editor/components/Spinner/Spinner'
 import IndexPage from './IndexPage'
 
 const modals = {
@@ -102,6 +103,7 @@ export default class HyperReader extends Component {
     const currentModal = this.getModal($$)
     if (currentRoute) el.append(currentRoute)
     if (currentModal) el.append(currentModal)
+    if (this.state.loading) el.append($$(Spinner))
     return el
   }
 

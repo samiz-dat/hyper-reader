@@ -7,8 +7,8 @@ const colorMap = {
 
 const sizeMap = {
   small: 'pv1 ph2 f7 br4',
-  medium: 'pv1 ph3 f6 br4 w500',
-  large: 'pv2 ph3 f5 br4 w500'
+  medium: 'pv1 ph3 f6 br4 fw500',
+  large: 'pv2 ph3 f5 br4 fw500'
 }
 
 export default class Button extends Component {
