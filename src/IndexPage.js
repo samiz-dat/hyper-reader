@@ -11,19 +11,20 @@ export default class IndexPage extends Component {
     let el = $$('div').addClass('hr-reader-index')
     el.append(
       $$('div')
-        .addClass('pa3 tr')
+        .addClass('pa3 tr mw-main center')
         .append(
           $$(Button, { text: 'import', icon: 'key', status: 'secondary' }).on('click', () => this.send('hr:import')),
           $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new'))
         )
     )
+    const readings = $$('div')
+      .addClass('mw-main center')
     if (list && list.length > 0) {
-      list.forEach((item) => {
-        el.append($$(ListItem, item))
-      })
+      readings.append(list.map(item => $$(ListItem, item)))
     } else {
-      el.append('No Reading Lists')
+      readings.append('No Reading Lists')
     }
+    el.append(readings)
     return el
   }
 

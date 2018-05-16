@@ -75,3 +75,10 @@
 .a-grow-1 {
   flex-grow: 1;
 }
+
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.mw-main { max-width: 760px }
