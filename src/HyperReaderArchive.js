@@ -12,14 +12,38 @@ class SaveHandler {
   }
 }
 
+const delay = (t) => new Promise(resolve => setTimeout(resolve, t))
+
 export default class HyperReaderArchive {
   // injecting the HyperReadings library into the Archive
   constructor (hrManager) {
+    this.loading = true
     this.manager = hrManager
-    hrManager.on('ready', () => this.update())
+    hrManager.on('ready', () => {
+      this.loading = false
+      this._update()
+    })
     this.session = null
     this.selected = null
     this._setupConfigurator()
+  }
+
+  // This is pretty stupid. Need a smarter way of handling state.
+  // It would be best if this did not force a rerender of the entire
+  // view each time the loader changes.
+  _setLoading (fn) {
+    this.loading = true
+    this._update()
+    return fn()
+      .then(() => {
+        this.loading = false
+        this._update()
+      })
+      .catch((e) => {
+        this.loading = false
+        this._update()
+        throw e
+      })
   }
 
   _setupConfigurator () {
@@ -36,7 +60,7 @@ export default class HyperReaderArchive {
     this.updateHandler = handler
   }
 
-  update () {
+  _update () {
     if (this.updateHandler) this.updateHandler()
   }
 
@@ -44,7 +68,7 @@ export default class HyperReaderArchive {
     console.log('closed')
     this.session = null
     this.selected = null
-    this.update()
+    this._update()
   }
 
   getEditorSession () {
@@ -60,8 +84,7 @@ export default class HyperReaderArchive {
   }
 
   async remove (key) {
-    await this.manager.remove(key)
-    this.update()
+    return this._setLoading(() => this.manager.remove(key))
   }
 
   getTitle () {
@@ -73,34 +96,35 @@ export default class HyperReaderArchive {
     // get new empty session
     this.session = ArticleLoader.load(null, this.configurator, { archive: this })
     this.selected = 'new'
-    this.update()
+    this._update()
     return this
   }
 
   async import (key, name) {
-    await this.manager.import(key, name)
-    this.update()
+    return this._setLoading(() => this.manager.import(key, name))
   }
 
   async load (key) {
-    return this._load(key)
-      .then((session) => {
-        this.session = session
-        this.selected = key
-        // can listen to changes here - and only save changes
-        // to start with node deletions will probably be priority.
-        // data.editorSession.onUpdate('document', (change) => {
-        //   console.log('cccc', change)
-        // }, this)
-        this.update()
-        return this
-      })
+    return this._setLoading(() => {
+      return this._load(key)
+        .then((session) => {
+          this.session = session
+          this.selected = key
+          // can listen to changes here - and only save changes
+          // to start with node deletions will probably be priority.
+          // data.editorSession.onUpdate('document', (change) => {
+          //   console.log('cccc', change)
+          // }, this)
+        })
+    })
   }
 
   async createEmptyReadingList (name) {
     if (!this.selected) return
-    const hr = await this.manager.new(name)
-    this.selected = hr.key
+    return this._setLoading(async () => {
+      const hr = await this.manager.new(name)
+      this.selected = hr.key
+    })
   }
 
   async save () {
@@ -110,8 +134,10 @@ export default class HyperReaderArchive {
     if (!hrInfo) { // document does not exist
       throw new Error('HyperReadings document does not exist')
     }
-    console.log('save', doc.toJSON())
-    return json2Hr(hrInfo.hr, doc.toJSON())
+    return this._setLoading(async () => {
+      console.log('save', doc.toJSON())
+      await json2Hr(hrInfo.hr, doc.toJSON())
+    })
   }
 
   /** Load hyperreadings as a Substance Document

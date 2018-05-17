@@ -92,6 +92,13 @@
   position: relative;
 }
 
+.z-1000 {
+  z-index: 1000;
+}
+.z-max {
+  z-index: 2147483647;
+}
+
 .top-0 {
   top: 0;
 }

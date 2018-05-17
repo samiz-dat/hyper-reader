@@ -103,7 +103,7 @@ export default class HyperReader extends Component {
     const currentModal = this.getModal($$)
     if (currentRoute) el.append(currentRoute)
     if (currentModal) el.append(currentModal)
-    if (this.state.loading) el.append($$(Spinner))
+    if (this.props.archive.loading) el.append($$(Spinner))
     return el
   }
 
