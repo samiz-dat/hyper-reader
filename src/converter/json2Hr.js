@@ -18,8 +18,6 @@ async function exportBody (hr, node, ctx) {
       await hrBody.insertNode({ name: id })
     }
   }
-  // if (hr.exists(node, '')) return
-  // if (hr.exists(node, '')) return
 }
 
 async function exportHeading (hr, node, ctx) {
@@ -33,8 +31,6 @@ async function exportHeading (hr, node, ctx) {
     hrNode = await hr.createNode('doco:Title', { id: prependNamespace('hr', node.id) })
   }
   if (node.content) await hrNode.set('c4o:hasContent', node.content)
-  // if (node.content) await hrNode.set('c4o:hasContent', node.content)
-  // if (hr.exists(node, '')) return
 }
 
 async function exportParagraph (hr, node, ctx) {
@@ -49,10 +45,29 @@ async function exportParagraph (hr, node, ctx) {
   if (node.content) await hrNode.set('c4o:hasContent', node.content)
 }
 
+async function exportSection (hr, node, ctx) {
+  console.log('hr', node, hr)
+  let hrNode = null
+  if (await hr.exists(prependNamespace('hr', node.id), 'doco:Section')) {
+    console.log('exists')
+    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
+  } else {
+    hrNode = await hr.createNode('doco:Section', { id: prependNamespace('hr', node.id) })
+  }
+  if (node.nodes) {
+    for (const i in node.nodes) {
+      const id = prependNamespace('hr', node.nodes[i])
+      console.log('inserting', id)
+      await hrNode.insertNode({ name: id })
+    }
+  }
+}
+
 var exporters = {
   'body': exportBody,
   'heading': exportHeading,
-  'paragraph': exportParagraph
+  'paragraph': exportParagraph,
+  'section': exportSection
 }
 
 async function json2Hr (hr, json) {

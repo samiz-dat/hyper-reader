@@ -1,13 +1,12 @@
 export default {
-  type: 'nest',
-  tagName: 'div',
-  // matchElement: function (el) {
-  //   return el.is('div[data-type="nest"]')
-  // },
+  type: 'section',
+  // tagName: 'div',
+  matchElement: function (el) {
+    return el.is('div') || el.is('section')
+  },
   import: function (el, node, converter) {
-    console.log('import nest', el, node)
+    console.log('import section', el, node)
     console.log('id', el.getAttribute('data-id'))
-    // node.id = 'nest'
     node.nodes = el.getChildren().map(function (child) {
       var childNode = converter.convertElement(child)
       return childNode.id
@@ -15,7 +14,7 @@ export default {
   },
 
   export: function (node, el, converter) {
-    console.log('export nest', node)
+    console.log('export section', node)
     el.append(converter.convertNodes(node.nodes))
   }
 }

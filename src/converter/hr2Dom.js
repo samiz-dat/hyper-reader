@@ -3,6 +3,7 @@ import { stripNamespace } from './utils'
 
 async function renderSection (dom, domNode, hrNode) {
   const section = dom.createElement('div')
+  console.log('section:', stripNamespace(hrNode.name))
   section.setAttribute('data-id', stripNamespace(hrNode.name))
   await hrNode.iterate(executeRender(dom, section))
   domNode.appendChild(section)
@@ -33,7 +34,7 @@ const renderers = {
 
 function executeRender (dom, domNode) {
   return (node) => {
-    console.log(node.name, node.type)
+    console.log('ex', node.name, node.type)
     const renderer = renderers[node.type]
     if (!renderer) {
       console.warn('No renderer setup for', node.type)
@@ -43,11 +44,23 @@ function executeRender (dom, domNode) {
   }
 }
 
+function log (hr) {
+  return new Promise((resolve, reject) => {
+    const stream = hr.graph.db.createHistoryStream('/')
+    stream.on('data', n => { if (n.key.startsWith('spo/')) console.log(n.key) })
+    stream.on('end', resolve)
+    stream.on('error', reject)
+  })
+}
+
 async function render (hr) {
+  await log(hr)
   const dom = DefaultDOMElement.createDocument()
   const domBody = dom.find('body')
   const hrBody = await hr.body()
+  console.log('hr', hrBody.name, hrBody.type)
   if (!hrBody) return dom
+  console.log('iterating')
   await hrBody.iterate(executeRender(dom, domBody))
   return dom
 }

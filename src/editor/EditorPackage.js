@@ -13,7 +13,7 @@ import Editor from './components/Editor/Editor'
 import HyperReaderArticlePackage from '../article/HyperReaderArticlePackage'
 import BodyPackage from './components/Body/BodyPackage'
 import CommentPackage from './components/Comment/CommentPackage'
-import NestPackage from './components/Nest/NestPackage'
+import SectionPackage from './components/Section/SectionPackage'
 import SaveCommand from './commands/SaveCommand'
 import CloseCommand from './commands/CloseCommand'
 
@@ -35,7 +35,7 @@ function configure (config) {
   // custom nodes
   config.import(BodyPackage)
   config.import(CommentPackage)
-  config.import(NestPackage)
+  config.import(SectionPackage)
 
   config.addCommand('save-command', SaveCommand, { commandGroup: 'editor-options' })
   config.addLabel('save-command', 'Save')
@@ -73,7 +73,7 @@ function configure (config) {
       type: 'tool-group',
       showDisabled: true,
       style: 'minimal',
-      commandGroups: ['insert-nest']
+      commandGroups: ['insert-section']
     },
     {
       name: 'options',
