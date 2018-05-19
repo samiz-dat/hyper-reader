@@ -30,7 +30,8 @@ export default class HyperReaderArchive {
 
   // This is pretty stupid. Need a smarter way of handling state.
   // It would be best if this did not force a rerender of the entire
-  // view each time the loader changes.
+  // view each time the loader changes. Should implement a Redux-like
+  // solution where state is connected to components.
   _setLoading (fn) {
     this.loading = true
     this._update()

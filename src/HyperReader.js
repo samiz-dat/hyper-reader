@@ -59,8 +59,7 @@ export default class HyperReader extends Component {
             title: 'Remove Reading List?'
           }
         }})
-        // archive.remove(data.key)
-      } // TODO: add confirmation dialogue
+      }
     })
   }
 

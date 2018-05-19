@@ -151,6 +151,7 @@ function _buildLib (DEST, platform) {
   // ]
   b.js('./index.es.js', {
     targets,
+    commonjs: true,
     external: ['substance', 'hyper-reader', 'hyper-readings'],
     globals: {
       'substance': 'substance',

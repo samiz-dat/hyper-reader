@@ -32,6 +32,16 @@ function extractValuesFromForm (form) {
 }
 
 class Form extends Component {
+  _isErrored () {
+    const childInputs = this.props.children.map(c => c.getComponent())
+    const errored = childInputs.reduce((p, c) => {
+      if (p || !c) return p
+      if (c.validate) p = c.validate()
+      return p
+    }, false)
+    return errored
+  }
+
   render ($$) {
     let el = $$('form')
       .attr({ method: 'post', action: '/', role: 'Form' })
@@ -46,7 +56,7 @@ class Form extends Component {
     e.preventDefault()
     e.stopPropagation()
     console.log('sub')
-    if (!this.props.onSubmit) return
+    if (this._isErrored() || !this.props.onSubmit) return
     // although can also use e.target rather than ref.el.el
     const data = extractValuesFromForm(this.refs['form'].el.el)
     this.props.onSubmit(data)

@@ -1,7 +1,8 @@
 import { Component } from 'substance'
-import Form from '../../components/Form/Form'
-import SimpleInput from '../../components/SimpleInput/SimpleInput'
-import Button from '../../components/Button/Button'
+import Form from '../Form/Form'
+import SimpleInput from '../SimpleInput/SimpleInput'
+import Button from '../Button/Button'
+import { isKey, isSimpleText } from '../../utils/validators'
 
 export default class ImportByKey extends Component {
   render ($$) {
@@ -17,8 +18,8 @@ export default class ImportByKey extends Component {
       }
     })
     form.append(
-      $$(SimpleInput, { label: 'Key', name: 'key' }),
-      $$(SimpleInput, { label: 'Name', name: 'name' }),
+      $$(SimpleInput, { label: 'Key', name: 'key', validator: { func: isKey, msg: 'Requires valid key!' } }),
+      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }),
       $$(Button, { text: 'Import', type: 'submit' })
     )
     el.append(form)

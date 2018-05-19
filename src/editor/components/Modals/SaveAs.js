@@ -1,6 +1,8 @@
 import { Component } from 'substance'
 import Form from '../Form/Form'
 import SimpleInput from '../SimpleInput/SimpleInput'
+import Button from '../Button/Button'
+import { isSimpleText } from '../../utils/validators'
 
 export default class SaveAs extends Component {
   render ($$) {
@@ -13,7 +15,10 @@ export default class SaveAs extends Component {
         this.send('closeModal')
       }
     })
-    form.append($$(SimpleInput, { label: 'Name', name: 'name' }))
+    form.append(
+      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }),
+      $$(Button, { text: 'Save', type: 'submit' })
+    )
     el.append(form)
     return el
   }

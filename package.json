@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "hyper-readings-manager": "0.0.1",
+    "lodash.debounce": "^4.0.8",
     "n3": "git://github.com/rdfjs/N3.js.git#develop",
     "substance": "^1.0.0-preview.37"
   }
