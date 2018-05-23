@@ -3,7 +3,7 @@ import {
   // SwitchTextTypePackage,
   ParagraphPackage,
   HeadingPackage,
-  CodeblockPackage,
+  ListPackage,
   StrongPackage,
   EmphasisPackage,
   LinkPackage
@@ -27,7 +27,7 @@ function configure (config) {
   // core nodes
   config.import(ParagraphPackage)
   config.import(HeadingPackage)
-  config.import(CodeblockPackage)
+  config.import(ListPackage)
   config.import(StrongPackage, {toolGroup: 'annotations'})
   config.import(EmphasisPackage, {toolGroup: 'annotations'})
   config.import(LinkPackage, {toolGroup: 'annotations'})
@@ -60,6 +60,13 @@ function configure (config) {
       showDisabled: false,
       style: 'descriptive',
       commandGroups: ['text-types']
+    },
+    {
+      name: 'list',
+      type: 'tool-group',
+      showDisabled: true,
+      style: 'minimal',
+      commandGroups: ['list']
     },
     {
       name: 'annotations',
