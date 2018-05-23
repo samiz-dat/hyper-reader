@@ -11,55 +11,45 @@ async function exportBody (hr, node, ctx) {
     hrBody = await hr.createNode('hr:body')
     await hrRoot.insertNode(hrBody)
   }
-  if (node.nodes) {
-    for (const i in node.nodes) {
-      const id = prependNamespace('hr', node.nodes[i])
-      console.log('inserting', id)
-      await hrBody.insertNode({ name: id })
-    }
-  }
+  hrBody.updateList(node.nodes.map(n => prependNamespace('hr', n)))
 }
 
 async function exportHeading (hr, node, ctx) {
-  // await hr.
-  // check if it exists?
-  console.log('hr', node, hr)
   let hrNode = null
   if (await hr.exists(prependNamespace('hr', node.id), 'doco:Title')) {
     hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
   } else {
     hrNode = await hr.createNode('doco:Title', { id: prependNamespace('hr', node.id) })
   }
-  if (node.content) await hrNode.set('c4o:hasContent', node.content)
+  hrNode.update({
+    'hr:level': node.level,
+    'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
+    'c4o:hasContent': node.content
+  })
 }
 
 async function exportParagraph (hr, node, ctx) {
-  console.log('hr', node, hr)
   let hrNode = null
   if (await hr.exists(prependNamespace('hr', node.id), 'doco:Paragraph')) {
-    console.log('exists')
     hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
   } else {
     hrNode = await hr.createNode('doco:Paragraph', { id: prependNamespace('hr', node.id) })
   }
-  if (node.content) await hrNode.set('c4o:hasContent', node.content)
+  hrNode.update({
+    'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
+    'c4o:hasContent': node.content
+  })
 }
 
 async function exportSection (hr, node, ctx) {
-  console.log('hr', node, hr)
   let hrNode = null
   if (await hr.exists(prependNamespace('hr', node.id), 'doco:Section')) {
-    console.log('exists')
     hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
   } else {
     hrNode = await hr.createNode('doco:Section', { id: prependNamespace('hr', node.id) })
   }
-  if (node.nodes) {
-    for (const i in node.nodes) {
-      const id = prependNamespace('hr', node.nodes[i])
-      console.log('inserting', id)
-      await hrNode.insertNode({ name: id })
-    }
+  await hrNode.updateList(node.nodes.map(n => prependNamespace('hr', n)))
+}
   }
 }
 
