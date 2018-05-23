@@ -12,6 +12,6 @@ export default {
     config.addConverter('html', SectionConverter)
     config.addCommand('insert-section', InsertSectionCommand, { nodeType: 'section', commandGroup: 'insert-section' })
     config.addTool('insert-section', Tool)
-    config.addIcon('insert-section', { 'fontawesome': 'fa-indent' })
+    config.addIcon('insert-section', { 'fontawesome': 'fa-square' })
   }
 }
