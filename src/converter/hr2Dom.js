@@ -12,7 +12,9 @@ async function renderSection (dom, domNode, hrNode) {
 
 async function renderTitle (dom, domNode, hrNode) {
   const text = await hrNode.get('c4o:hasContent')
-  const h1 = dom.createElement('h1').setTextContent(text)
+  const level = await hrNode.get('hr:level')
+  console.log('text', text)
+  const h1 = dom.createElement(`h${level || 1}`).setTextContent(text)
   h1.setAttribute('data-id', stripNamespace(hrNode.name))
   domNode.appendChild(h1)
   return h1
