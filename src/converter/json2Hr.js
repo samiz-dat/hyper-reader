@@ -50,14 +50,40 @@ async function exportSection (hr, node, ctx) {
   }
   await hrNode.updateList(node.nodes.map(n => prependNamespace('hr', n)))
 }
+
+async function exportList (hr, node, ctx) {
+  let hrNode = null
+  if (await hr.exists(prependNamespace('hr', node.id), 'doco:List')) {
+    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
+  } else {
+    hrNode = await hr.createNode('doco:List', { id: prependNamespace('hr', node.id) })
   }
+  await hrNode.updateList(node.items.map(n => prependNamespace('hr', n)))
+  if (node.ordered !== undefined) await hrNode.set('hr:ordered', node.ordered)
+  if (node.listType !== undefined) await hrNode.set('hr:listType', node.listType)
+}
+
+async function exportListItem (hr, node, ctx) {
+  let hrNode = null
+  if (await hr.exists(prependNamespace('hr', node.id), 'hr:ListItem')) {
+    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
+  } else {
+    hrNode = await hr.createNode('hr:ListItem', { id: prependNamespace('hr', node.id) })
+  }
+  hrNode.update({
+    'hr:level': node.level,
+    'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
+    'c4o:hasContent': node.content
+  })
 }
 
 var exporters = {
   'body': exportBody,
   'heading': exportHeading,
   'paragraph': exportParagraph,
-  'section': exportSection
+  'section': exportSection,
+  'list': exportList,
+  'list-item': exportListItem
 }
 
 async function json2Hr (hr, json) {
