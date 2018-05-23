@@ -147,7 +147,7 @@ export default class HyperReaderArchive {
   async _load (key) {
     const hr = this.manager.get(key)
     // await hr.import('# hello\n\nworld', { type: 'md' })
-    const dom = await hr2Dom(hr.hr)
-    return ArticleLoader.load(dom, this.configurator, { archive: this })
+    // const dom = await hr2Dom(hr.hr)
+    return ArticleLoader.loadViaDoc(hr.hr, this.configurator, { archive: this })
   }
 }
