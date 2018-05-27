@@ -77,22 +77,94 @@ async function exportListItem (hr, node, ctx) {
   })
 }
 
+async function exportEmphasis (hr, node, ctx) {
+  console.log('exporting emphasis')
+  let hrNode = null
+  if (await hr.exists(prependNamespace('hr', node.id), 'hr:Emphasis')) {
+    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
+  } else {
+    hrNode = await hr.createNode('hr:Emphasis', { id: prependNamespace('hr', node.id) })
+  }
+  const parentId = node.start.path[0]
+  const parent = await hr.node(prependNamespace('hr', parentId))
+  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  hrNode.update({
+    'hr:start': node.start.offset,
+    'hr:end': node.end.offset
+  })
+}
+
+async function exportStrong (hr, node, ctx) {
+  console.log('exporting strong')
+  let hrNode = null
+  if (await hr.exists(prependNamespace('hr', node.id), 'hr:Strong')) {
+    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
+  } else {
+    hrNode = await hr.createNode('hr:Strong', { id: prependNamespace('hr', node.id) })
+  }
+  const parentId = node.start.path[0]
+  const parent = await hr.node(prependNamespace('hr', parentId))
+  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  hrNode.update({
+    'hr:start': node.start.offset,
+    'hr:end': node.end.offset
+  })
+}
+
 var exporters = {
-  'body': exportBody,
-  'heading': exportHeading,
-  'paragraph': exportParagraph,
-  'section': exportSection,
-  'list': exportList,
-  'list-item': exportListItem
+  'body': {
+    fn: exportBody,
+    priority: 1
+  },
+  'heading': {
+    fn: exportHeading,
+    priority: 1
+  },
+  'paragraph': {
+    fn: exportParagraph,
+    priority: 1
+  },
+  'section': {
+    fn: exportSection,
+    priority: 1
+  },
+  'list': {
+    fn: exportList,
+    priority: 1
+  },
+  'list-item': {
+    fn: exportListItem,
+    priority: 0
+  },
+  'emphasis': {
+    fn: exportEmphasis,
+    priority: 0
+  },
+  'strong': {
+    fn: exportStrong,
+    priority: 0
+  }
 }
 
 async function json2Hr (hr, json) {
   console.log(json.nodes)
-  for (const id in json.nodes) {
+  // crude sorting of dependent nodes
+  const ids = Object.keys(json.nodes).sort((a, b) => {
+    const aExporter = exporters[json.nodes[a].type]
+    const bExporter = exporters[json.nodes[b].type]
+    const _a = aExporter ? aExporter.priority : -1
+    const _b = bExporter ? bExporter.priority : -1
+    if (_a > _b) return -1
+    if (_a < _b) return 1
+    return 0
+  })
+  console.log(ids)
+  for (const id of ids) {
     const node = json.nodes[id]
     const exporter = exporters[node.type]
     if (exporter) {
-      await exporter(hr, node, json)
+      console.log('exporting', node.type)
+      await exporter.fn(hr, node, json)
     } else {
       console.warn(`No exporter for node type ${node.type}`)
     }

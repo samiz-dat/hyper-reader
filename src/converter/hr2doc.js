@@ -1,6 +1,6 @@
 import { stripNamespace } from './utils'
 
-async function renderBody (doc, node) {
+async function renderBody (doc, node, hr) {
   const id = stripNamespace(node.name)
   const nodes = []
   await node.iterate((child) => {
@@ -12,11 +12,11 @@ async function renderBody (doc, node) {
     }
     tx.create({ id: 'body', type: 'body', nodes })
   })
-  await node.iterate(executeImport(doc))
+  await node.iterate(executeImport(doc, hr))
   return doc
 }
 
-async function renderSection (doc, node) {
+async function renderSection (doc, node, hr) {
   const id = stripNamespace(node.name)
   const nodes = []
   await node.iterate((child) => {
@@ -28,7 +28,7 @@ async function renderSection (doc, node) {
     }
     tx.create({ id, type: 'section', nodes })
   })
-  await node.iterate(executeImport(doc))
+  await node.iterate(executeImport(doc, hr))
   return doc
 }
 
@@ -43,7 +43,7 @@ async function getListItem (node) {
   }
 }
 
-async function renderList (doc, node) {
+async function renderList (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
   const nodes = []
@@ -73,7 +73,7 @@ async function renderList (doc, node) {
       listType: props['hr:listType']
     })
   })
-  await node.iterate(executeImport(doc))
+  await node.iterate(executeImport(doc, hr))
   return doc
 }
 
@@ -94,9 +94,37 @@ async function renderTitle (doc, node) {
   return doc
 }
 
-async function renderParagraph (doc, node) {
+const annotationsTypes = {
+  'hr:Emphasis': 'emphasis',
+  'hr:Strong': 'strong'
+}
+
+async function renderAnnotations (parentNode) {
+  const parentId = stripNamespace(parentNode.name)
+  const annotations = await parentNode.all('hr:hasAnnotation')
+  const nodes = await Promise.all(annotations.map(async (node) => {
+    const annotationProps = await node.properties()
+    return {
+      id: stripNamespace(node.name),
+      type: annotationsTypes[node.type],
+      start: {
+        path: [parentId, 'content'],
+        offset: annotationProps['hr:start']
+      },
+      end: {
+        path: [parentId, 'content'],
+        offset: annotationProps['hr:end']
+      }
+    }
+  }))
+  return nodes
+}
+
+async function renderParagraph (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
+  const annotations = await renderAnnotations(node)
+  // get all annotations to load
   doc.import(function (tx) {
     if (tx.get(id)) {
       tx.delete(id)
@@ -105,6 +133,12 @@ async function renderParagraph (doc, node) {
       id,
       type: 'paragraph',
       content: props['c4o:hasContent']
+    })
+    annotations.forEach(n => {
+      if (tx.get(n.id)) {
+        tx.delete(n.id)
+      }
+      tx.create(n)
     })
   })
   return doc
@@ -118,7 +152,7 @@ const importers = {
   'doco:List': renderList
 }
 
-function executeImport (doc) {
+function executeImport (doc, hr) {
   return (node) => {
     console.log('importing --', node.name, node.type)
     const importer = importers[node.type]
@@ -126,7 +160,7 @@ function executeImport (doc) {
       console.warn('No importer setup for', node.type)
       return
     }
-    return importer(doc, node)
+    return importer(doc, node, hr)
   }
 }
 
@@ -146,7 +180,7 @@ async function importDocument (doc, hr) {
   console.log('hr', hrBody.name, hrBody.type)
   if (!hrBody) return doc
   console.log('iterating')
-  await executeImport(doc)(hrBody)
+  await executeImport(doc, hr)(hrBody)
   return doc
 }
 
