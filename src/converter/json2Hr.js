@@ -64,7 +64,7 @@ async function exportEmphasis (hr, node, ctx) {
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
-  hrNode.update({
+  await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset
   })
@@ -75,7 +75,7 @@ async function exportStrong (hr, node, ctx) {
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
-  hrNode.update({
+  await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset
   })
@@ -86,7 +86,7 @@ async function exportComment (hr, node, ctx) {
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
-  hrNode.update({
+  await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset,
     'hr:content': node.content
@@ -98,7 +98,7 @@ async function exportLink (hr, node, ctx) {
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
-  hrNode.update({
+  await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset,
     'hr:url': node.url
