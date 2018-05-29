@@ -105,6 +105,7 @@ export default class HyperReaderArchive {
 
   isEditable () {
     if (!this.selected) return false
+    if (this.selected === 'new') return true
     let hrInfo = this.manager.get(this.selected)
     if (!hrInfo) return false
     return hrInfo.authorised
