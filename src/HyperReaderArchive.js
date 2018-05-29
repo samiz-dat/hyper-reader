@@ -35,8 +35,11 @@ export default class HyperReaderArchive {
   }
 
   _statPoll () {
-    this.stats = this.manager.stats()
+    const newStats = this.manager.stats()
     // TODO: do not update if stats are the same
+    // - including local stats.
+    // Perhaps better to implement redux
+    this.stats = newStats
     this._update()
   }
 
