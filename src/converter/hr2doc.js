@@ -94,28 +94,86 @@ async function renderTitle (doc, node) {
   return doc
 }
 
-const annotationsTypes = {
-  'hr:Emphasis': 'emphasis',
-  'hr:Strong': 'strong'
+async function emphasisAnnotation (parentId, node) {
+  const annotationProps = await node.properties()
+  return {
+    id: stripNamespace(node.name),
+    type: 'emphasis',
+    start: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:start']
+    },
+    end: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:end']
+    }
+  }
+}
+
+async function strongAnnotation (parentId, node) {
+  const annotationProps = await node.properties()
+  return {
+    id: stripNamespace(node.name),
+    type: 'strong',
+    start: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:start']
+    },
+    end: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:end']
+    }
+  }
+}
+
+async function linkAnnotation (parentId, node) {
+  const annotationProps = await node.properties()
+  return {
+    id: stripNamespace(node.name),
+    type: 'link',
+    url: annotationProps['hr:url'],
+    start: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:start']
+    },
+    end: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:end']
+    }
+  }
+}
+
+async function commentAnnotation (parentId, node) {
+  const annotationProps = await node.properties()
+  return {
+    id: stripNamespace(node.name),
+    type: 'comment',
+    content: annotationProps['hr:content'],
+    start: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:start']
+    },
+    end: {
+      path: [parentId, 'content'],
+      offset: annotationProps['hr:end']
+    }
+  }
+}
+
+const annotationsImporters = {
+  'hr:Emphasis': emphasisAnnotation,
+  'hr:Strong': strongAnnotation,
+  'hr:Link': linkAnnotation,
+  'hr:Comment': commentAnnotation
 }
 
 async function renderAnnotations (parentNode) {
   const parentId = stripNamespace(parentNode.name)
   const annotations = await parentNode.all('hr:hasAnnotation')
   const nodes = await Promise.all(annotations.map(async (node) => {
-    const annotationProps = await node.properties()
-    return {
-      id: stripNamespace(node.name),
-      type: annotationsTypes[node.type],
-      start: {
-        path: [parentId, 'content'],
-        offset: annotationProps['hr:start']
-      },
-      end: {
-        path: [parentId, 'content'],
-        offset: annotationProps['hr:end']
-      }
-    }
+    const importer = annotationsImporters[node.type]
+    if (!importer) return
+    return importer(parentId, node)
   }))
   return nodes
 }
@@ -135,6 +193,7 @@ async function renderParagraph (doc, node, hr) {
       content: props['c4o:hasContent']
     })
     annotations.forEach(n => {
+      if (!n) return
       if (tx.get(n.id)) {
         tx.delete(n.id)
       }

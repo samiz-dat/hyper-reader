@@ -3,6 +3,13 @@
  */
 import { prependNamespace } from './utils'
 
+async function getOrCreateNode (hr, id, type) {
+  if (await hr.exists(prependNamespace('hr', id), type)) {
+    return hr.node({ name: prependNamespace('hr', id) })
+  }
+  return hr.createNode(type, { id: prependNamespace('hr', id) })
+}
+
 async function exportBody (hr, node, ctx) {
   let hrRoot = await hr.root()
   if (!hrRoot) hrRoot = await hr.createNode('hr:root')
@@ -15,13 +22,8 @@ async function exportBody (hr, node, ctx) {
 }
 
 async function exportHeading (hr, node, ctx) {
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'doco:Title')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('doco:Title', { id: prependNamespace('hr', node.id) })
-  }
-  hrNode.update({
+  let hrNode = await getOrCreateNode(hr, node.id, 'doco:Title')
+  await hrNode.update({
     'hr:level': node.level,
     'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
     'c4o:hasContent': node.content
@@ -29,48 +31,28 @@ async function exportHeading (hr, node, ctx) {
 }
 
 async function exportParagraph (hr, node, ctx) {
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'doco:Paragraph')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('doco:Paragraph', { id: prependNamespace('hr', node.id) })
-  }
-  hrNode.update({
+  let hrNode = await getOrCreateNode(hr, node.id, 'doco:Paragraph')
+  await hrNode.update({
     'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
     'c4o:hasContent': node.content
   })
 }
 
 async function exportSection (hr, node, ctx) {
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'doco:Section')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('doco:Section', { id: prependNamespace('hr', node.id) })
-  }
+  let hrNode = await getOrCreateNode(hr, node.id, 'doco:Section')
   await hrNode.updateList(node.nodes.map(n => prependNamespace('hr', n)))
 }
 
 async function exportList (hr, node, ctx) {
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'doco:List')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('doco:List', { id: prependNamespace('hr', node.id) })
-  }
+  let hrNode = await getOrCreateNode(hr, node.id, 'doco:List')
   await hrNode.updateList(node.items.map(n => prependNamespace('hr', n)))
   if (node.ordered !== undefined) await hrNode.set('hr:ordered', node.ordered)
   if (node.listType !== undefined) await hrNode.set('hr:listType', node.listType)
 }
 
 async function exportListItem (hr, node, ctx) {
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'hr:ListItem')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('hr:ListItem', { id: prependNamespace('hr', node.id) })
-  }
-  hrNode.update({
+  let hrNode = await getOrCreateNode(hr, node.id, 'hr:ListItem')
+  await hrNode.update({
     'hr:level': node.level,
     'hr:textAlign': (node.textAlign && node.textAlign !== 'left') ? node.textAlign : undefined,
     'c4o:hasContent': node.content
@@ -78,13 +60,7 @@ async function exportListItem (hr, node, ctx) {
 }
 
 async function exportEmphasis (hr, node, ctx) {
-  console.log('exporting emphasis')
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'hr:Emphasis')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('hr:Emphasis', { id: prependNamespace('hr', node.id) })
-  }
+  let hrNode = await getOrCreateNode(hr, node.id, 'hr:Emphasis')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
@@ -95,19 +71,37 @@ async function exportEmphasis (hr, node, ctx) {
 }
 
 async function exportStrong (hr, node, ctx) {
-  console.log('exporting strong')
-  let hrNode = null
-  if (await hr.exists(prependNamespace('hr', node.id), 'hr:Strong')) {
-    hrNode = await hr.node({ name: prependNamespace('hr', node.id) })
-  } else {
-    hrNode = await hr.createNode('hr:Strong', { id: prependNamespace('hr', node.id) })
-  }
+  let hrNode = await getOrCreateNode(hr, node.id, 'hr:Strong')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
   await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
   hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset
+  })
+}
+
+async function exportComment (hr, node, ctx) {
+  let hrNode = await getOrCreateNode(hr, node.id, 'hr:Comment')
+  const parentId = node.start.path[0]
+  const parent = await hr.node(prependNamespace('hr', parentId))
+  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  hrNode.update({
+    'hr:start': node.start.offset,
+    'hr:end': node.end.offset,
+    'hr:content': node.content
+  })
+}
+
+async function exportLink (hr, node, ctx) {
+  let hrNode = await getOrCreateNode(hr, node.id, 'hr:Link')
+  const parentId = node.start.path[0]
+  const parent = await hr.node(prependNamespace('hr', parentId))
+  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  hrNode.update({
+    'hr:start': node.start.offset,
+    'hr:end': node.end.offset,
+    'hr:url': node.url
   })
 }
 
@@ -143,6 +137,14 @@ var exporters = {
   },
   'strong': {
     fn: exportStrong,
+    priority: 0
+  },
+  'comment': {
+    fn: exportComment,
+    priority: 0
+  },
+  'link': {
+    fn: exportLink,
     priority: 0
   }
 }
