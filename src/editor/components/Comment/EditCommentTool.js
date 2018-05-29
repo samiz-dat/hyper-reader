@@ -6,10 +6,10 @@ import { Tool } from 'substance'
   field is blurred.
 */
 class EditCommentTool extends Tool {
-  getUrlPath () {
-    let propPath = this.constructor.urlPropertyPath
-    return [this.getNodeId()].concat(propPath)
-  }
+  // getUrlPath () {
+  //   let propPath = this.constructor.urlPropertyPath
+  //   return [this.getNodeId()].concat(propPath)
+  // }
 
   getNodeId () {
     return this.props.commandState.nodeId
@@ -36,10 +36,16 @@ class EditCommentTool extends Tool {
 
   onDelete (e) {
     e.preventDefault()
-    let node = this.props.node
-    let session = this.context.editorSession
-    session.transaction(function (tx, args) {
-      tx.delete(node.id)
+    let nodeId = this.getNodeId()
+    let sm = this.context.surfaceManager
+    let surface = sm.getFocusedSurface()
+    if (!surface) {
+      console.warn('No focused surface. Stopping command execution.')
+      return
+    }
+    let editorSession = this.context.editorSession
+    editorSession.transaction(function (tx, args) {
+      tx.delete(nodeId)
       return args
     })
   }
