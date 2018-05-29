@@ -1,17 +1,24 @@
 import { stripNamespace } from './utils'
 
+function importNodes (doc, nodes) {
+  doc.import(function (tx) {
+    nodes.forEach(n => {
+      if (!n) return
+      if (tx.get(n.id)) {
+        tx.delete(n.id)
+      }
+      tx.create(n)
+    })
+  })
+}
+
 async function renderBody (doc, node, hr) {
-  const id = stripNamespace(node.name)
+  // const id = stripNamespace(node.name)
   const nodes = []
   await node.iterate((child) => {
     nodes.push(stripNamespace(child.name))
   })
-  doc.import(function (tx) {
-    if (tx.get(id)) {
-      tx.delete(id)
-    }
-    tx.create({ id: 'body', type: 'body', nodes })
-  })
+  importNodes(doc, [{ id: 'body', type: 'body', nodes }])
   await node.iterate(executeImport(doc, hr))
   return doc
 }
@@ -22,12 +29,7 @@ async function renderSection (doc, node, hr) {
   await node.iterate((child) => {
     nodes.push(stripNamespace(child.name))
   })
-  doc.import(function (tx) {
-    if (tx.get(id)) {
-      tx.delete(id)
-    }
-    tx.create({ id, type: 'section', nodes })
-  })
+  importNodes(doc, [{ id, type: 'section', nodes }])
   await node.iterate(executeImport(doc, hr))
   return doc
 }
@@ -47,32 +49,24 @@ async function renderList (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
   const nodes = []
+  const annos = []
   await node.iterate(async (child) => {
     if (child.type !== 'hr:ListItem') {
       console.warn('List', id, 'contains non hr:ListItem child')
       return
     }
     nodes.push(await getListItem(child))
+    const annotations = await getAnnotations(child)
+    annos.push(...annotations)
   })
-  doc.import(function (tx) {
-    if (tx.get(id)) {
-      tx.delete(id)
-    }
-    nodes.forEach((n) => {
-      if (tx.get(n.id)) {
-        tx.delete(n.id)
-      }
-      console.log('node', n)
-      tx.create(n)
-    })
-    tx.create({
-      id,
-      type: 'list',
-      items: nodes.map(n => n.id),
-      order: props['hr:order'],
-      listType: props['hr:listType']
-    })
-  })
+  const data = {
+    id,
+    type: 'list',
+    items: nodes.map(n => n.id),
+    order: props['hr:order'],
+    listType: props['hr:listType']
+  }
+  importNodes(doc, [...nodes, ...annos, data])
   await node.iterate(executeImport(doc, hr))
   return doc
 }
@@ -80,17 +74,14 @@ async function renderList (doc, node, hr) {
 async function renderTitle (doc, node) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
-  doc.import(function (tx) {
-    if (tx.get(id)) {
-      tx.delete(id)
-    }
-    tx.create({
-      id,
-      type: 'heading',
-      content: props['c4o:hasContent'],
-      level: props['hr:level']
-    })
-  })
+  const annotations = await getAnnotations(node)
+  const title = {
+    id,
+    type: 'heading',
+    content: props['c4o:hasContent'],
+    level: props['hr:level']
+  }
+  importNodes(doc, [title, ...annotations])
   return doc
 }
 
@@ -167,7 +158,7 @@ const annotationsImporters = {
   'hr:Comment': commentAnnotation
 }
 
-async function renderAnnotations (parentNode) {
+async function getAnnotations (parentNode) {
   const parentId = stripNamespace(parentNode.name)
   const annotations = await parentNode.all('hr:hasAnnotation')
   const nodes = await Promise.all(annotations.map(async (node) => {
@@ -181,25 +172,14 @@ async function renderAnnotations (parentNode) {
 async function renderParagraph (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
-  const annotations = await renderAnnotations(node)
+  const annotations = await getAnnotations(node)
   // get all annotations to load
-  doc.import(function (tx) {
-    if (tx.get(id)) {
-      tx.delete(id)
-    }
-    tx.create({
-      id,
-      type: 'paragraph',
-      content: props['c4o:hasContent']
-    })
-    annotations.forEach(n => {
-      if (!n) return
-      if (tx.get(n.id)) {
-        tx.delete(n.id)
-      }
-      tx.create(n)
-    })
-  })
+  const data = {
+    id,
+    type: 'paragraph',
+    content: props['c4o:hasContent']
+  }
+  importNodes(doc, [data, ...annotations])
   return doc
 }
 
