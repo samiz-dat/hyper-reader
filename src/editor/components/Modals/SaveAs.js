@@ -16,7 +16,7 @@ export default class SaveAs extends Component {
       }
     })
     form.append(
-      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }),
+      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }).ref('name'),
       $$(Button, { text: 'Save', type: 'submit' })
     )
     el.append(form)

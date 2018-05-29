@@ -6,7 +6,6 @@ export default class SimpleInput extends Component {
     super(...args)
     this._onInputDebounced = debounce(this._onInput.bind(this), 300, false)
   }
-
   validate () {
     const { validator } = this.props
     const ref = this.refs['input']

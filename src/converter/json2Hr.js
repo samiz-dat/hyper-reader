@@ -132,6 +132,7 @@ var exporters = {
     fn: exportList,
     priority: 1
   },
+  // These items are only exported after the rest.
   'list-item': {
     fn: exportListItem,
     priority: 0
@@ -147,7 +148,6 @@ var exporters = {
 }
 
 async function json2Hr (hr, json) {
-  console.log(json.nodes)
   // crude sorting of dependent nodes
   const ids = Object.keys(json.nodes).sort((a, b) => {
     const aExporter = exporters[json.nodes[a].type]
@@ -158,7 +158,6 @@ async function json2Hr (hr, json) {
     if (_a < _b) return 1
     return 0
   })
-  console.log(ids)
   for (const id of ids) {
     const node = json.nodes[id]
     const exporter = exporters[node.type]

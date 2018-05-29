@@ -1,6 +1,6 @@
 import { Configurator } from 'substance'
 import ArticleLoader from './ArticleLoader'
-import hr2Dom from './converter/hr2Dom'
+// import hr2Dom from './converter/hr2Dom'
 import json2Hr from './converter/json2Hr'
 import EditorPackage from './editor/EditorPackage'
 
@@ -12,20 +12,42 @@ class SaveHandler {
   }
 }
 
-const delay = (t) => new Promise(resolve => setTimeout(resolve, t))
+// const delay = (t) => new Promise(resolve => setTimeout(resolve, t))
 
 export default class HyperReaderArchive {
   // injecting the HyperReadings library into the Archive
   constructor (hrManager) {
     this.loading = true
     this.manager = hrManager
+    this.statsIntervalId = null
     hrManager.on('ready', () => {
       this.loading = false
       this._update()
+      this.startStatsPoll()
     })
     this.session = null
     this.selected = null
     this._setupConfigurator()
+  }
+
+  _startPollingStats () {
+    this.statsIntervalId = setInterval(this._statPoll.bind(this), 1000)
+  }
+
+  _statPoll () {
+    this.stats = this.manager.stats()
+    // TODO: do not update if stats are the same
+    this._update()
+  }
+
+  startStatsPoll () {
+    if (!this.statsIntervalId) this.statsIntervalId = setInterval(this._statPoll.bind(this), 1000)
+  }
+  stopStatsPoll () {
+    if (this.statsIntervalId) {
+      clearInterval(this.statsIntervalId)
+      this.statsIntervalId = null
+    }
   }
 
   // This is pretty stupid. Need a smarter way of handling state.
@@ -70,6 +92,7 @@ export default class HyperReaderArchive {
     this.session = null
     this.selected = null
     this._update()
+    this.startStatsPoll()
   }
 
   getEditorSession () {
@@ -78,6 +101,13 @@ export default class HyperReaderArchive {
 
   isNew () {
     return this.selected === 'new'
+  }
+
+  isEditable () {
+    if (!this.selected) return false
+    let hrInfo = this.manager.get(this.selected)
+    if (!hrInfo) return false
+    return hrInfo.authorised
   }
 
   list () {
@@ -89,6 +119,7 @@ export default class HyperReaderArchive {
   }
 
   getTitle () {
+    /* TODO: get this from the selected hyper-reading  */
     let title = 'Untitled'
     return title
   }
@@ -97,6 +128,7 @@ export default class HyperReaderArchive {
     // get new empty session
     this.session = ArticleLoader.load(null, this.configurator, { archive: this })
     this.selected = 'new'
+    this.stopStatsPoll()
     this._update()
     return this
   }
@@ -109,11 +141,12 @@ export default class HyperReaderArchive {
     return this._setLoading(() => {
       return this._load(key)
         .then((session) => {
+          this.stopStatsPoll()
           this.session = session
           this.selected = key
           // can listen to changes here - and only save changes
           // to start with node deletions will probably be priority.
-          // data.editorSession.onUpdate('document', (change) => {
+          // session.onUpdate('document', (change) => {
           //   console.log('cccc', change)
           // }, this)
         })

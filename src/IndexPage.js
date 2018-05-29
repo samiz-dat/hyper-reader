@@ -8,7 +8,9 @@ export default class IndexPage extends Component {
   // }
   render ($$) {
     const { list } = this.props
-    let el = $$('div').addClass('hr-reader-index')
+    let el = $$('div')
+      .addClass('hr-reader-index')
+      .ref('list-container')
     el.append(
       $$('div')
         .addClass('pa3 tr mw-main center')
@@ -17,12 +19,13 @@ export default class IndexPage extends Component {
           $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new'))
         )
     )
-    const readings = $$('div')
+    const readings = $$('ul')
       .addClass('mw-main center')
+      .ref('list')
     if (list && list.length > 0) {
-      readings.append(list.map(item => $$(ListItem, item)))
+      readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${i}`)))
     } else {
-      readings.append('No Reading Lists')
+      readings.append($$('li').append('No Reading Lists'))
     }
     el.append(readings)
     return el

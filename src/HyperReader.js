@@ -67,7 +67,8 @@ export default class HyperReader extends Component {
     const configurator = this.configurator
     return {
       configurator,
-      archive: this.props.archive
+      archive: this.props.archive,
+      disabled: !this.props.archive.isEditable()
     }
   }
 
@@ -77,13 +78,13 @@ export default class HyperReader extends Component {
     let component = null
     if (session) {
       component = $$(EditorPackage.Editor, {
-        editorSession: session
-        // disabled: true
+        editorSession: session,
+        disabled: !this.props.archive.isEditable()
       })
     } else {
       component = $$(IndexPage, { list: archive.list() })
     }
-    return component
+    return component.ref('route')
   }
 
   getModal ($$) {
@@ -92,12 +93,14 @@ export default class HyperReader extends Component {
     const component = modals[modal.type]
     // console.log(modal, component)
     if (!component) return null
-    return $$(Modal, modal.options).append($$(component, modal.props))
+    return $$(Modal, modal.options).append(
+      $$(component, modal.props).ref('modal-content')
+    ).ref('modal')
   }
 
   render ($$) {
     console.log('rerendering')
-    let el = $$('div').addClass('sc-reader')
+    let el = $$('div').addClass('sc-reader').ref('reader')
     const currentRoute = this.getRoute($$)
     const currentModal = this.getModal($$)
     if (currentRoute) el.append(currentRoute)

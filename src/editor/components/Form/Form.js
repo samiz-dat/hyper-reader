@@ -46,7 +46,7 @@ class Form extends Component {
     let el = $$('form')
       .attr({ method: 'post', action: '/', role: 'Form' })
       .addClass('sc-form')
-      .ref('form')
+      .ref('form-form')
     el.append(this.props.children)
     el.on('submit', (e) => this._onSubmit(e))
     return el
@@ -58,7 +58,7 @@ class Form extends Component {
     console.log('sub')
     if (this._isErrored() || !this.props.onSubmit) return
     // although can also use e.target rather than ref.el.el
-    const data = extractValuesFromForm(this.refs['form'].el.el)
+    const data = extractValuesFromForm(this.refs['form-form'].el.el)
     this.props.onSubmit(data)
   }
 }

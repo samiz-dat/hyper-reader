@@ -51,6 +51,7 @@ class Editor extends AbstractEditor {
         theme: 'dark'
       }),
       $$(ContextMenu, {
+        disabled: this.props.disabled,
         toolPanel: configurator.getToolPanel('context-menu'),
         theme: 'dark'
       }),

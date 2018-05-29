@@ -8,7 +8,7 @@ class SectionComponent extends Component {
     let node = this.props.node
     el.append(
       $$(ContainerEditor, {
-        // disabled: this.props.disabled,
+        disabled: this.context.disabled,
         node: node,
         commands: configurator.getSurfaceCommandNames()
       }).ref('section-editor')

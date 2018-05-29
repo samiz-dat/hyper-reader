@@ -18,11 +18,13 @@ export default class ImportByKey extends Component {
       }
     })
     form.append(
-      $$(SimpleInput, { label: 'Key', name: 'key', validator: { func: isKey, msg: 'Requires valid key!' } }),
-      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }),
+      $$(SimpleInput, { label: 'Key', name: 'key', validator: { func: isKey, msg: 'Requires valid key!' } })
+        .ref('input-key'),
+      $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } })
+        .ref('input-name'),
       $$(Button, { text: 'Import', type: 'submit' })
-    )
-    el.append(form)
+    ).ref('form')
+    el.append(form).ref('form-container')
     return el
   }
 }

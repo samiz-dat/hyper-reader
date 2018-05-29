@@ -19,7 +19,7 @@ import { Component } from 'substance'
 */
 export default class Modal extends Component {
   render ($$) {
-    let el = $$('div').addClass('sc-modal-dialog')
+    let el = $$('div').addClass('sc-modal-dialog').ref('dialog')
 
     // TODO: don't think that this is good enough. Right the modal is closed by any unhandled click.
     // Need to be discussed.
@@ -35,9 +35,11 @@ export default class Modal extends Component {
     }
 
     el.append(
-      $$('div').addClass('se-body').append(
-        [this.props.title && $$('div').addClass('a-bb fw700 mb3').append(this.props.title), ...this.props.children]
-      )
+      $$('div')
+        .addClass('se-body')
+        .append(
+          [this.props.title && $$('div').addClass('a-bb fw700 mb3').append(this.props.title), ...this.props.children]
+        ).ref('dialog-content')
     )
     return el
   }
