@@ -13,14 +13,20 @@ export default class IndexPage extends Component {
       .ref('list-container')
     el.append(
       $$('div')
-        .addClass('pa3 tr mw-main center')
+        .addClass('mw-main center')
+        .append(
+          $$('h1').append('HyperReadings').addClass('serif pt4 f2'),
+          $$('p').append('Create and share reading lists with your bestest friends.').addClass('f3 mb4 serif')
+        ),
+      $$('div')
+        .addClass('mw-main center tc pb5')
         .append(
           $$(Button, { text: 'import', icon: 'key', status: 'secondary' }).on('click', () => this.send('hr:import')),
           $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new'))
         )
     )
     const readings = $$('ul')
-      .addClass('mw-main center')
+      .addClass('mw-main center listOfLists pa0')
       .ref('list')
     if (list && list.length > 0) {
       readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${i}`)))

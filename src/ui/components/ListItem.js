@@ -6,11 +6,11 @@ export default class ListItem extends Component {
     const { key, title, folder, speed, size, hr, authorised } = this.props
     const downloading = size.totalPercentage !== 100
     let el = $$('li')
-      .addClass('pa3')
+      .addClass('pb4')
       .ref('li')
     el.append(
-      $$('div').addClass('sans f6 fw700').append(title || 'untitled'),
-      $$('div').addClass('').append(
+      $$('div').addClass('sans f3 fw700').append(title || 'untitled'),
+      $$('div').addClass('readingList__stats').append(
         $$('span').append('Peers:' + hr.network.connections.length),
         $$('span').append('Upload:' + speed.uploadSpeed),
         $$('span').append('Download:' + speed.downloadSpeed),
