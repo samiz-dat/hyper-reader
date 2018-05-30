@@ -16,6 +16,7 @@ export default class IndexPage extends Component {
         .addClass('pa3 tr mw-main center')
         .append(
           $$('h1').append('Hyper Readings').addClass('f1 serif'),
+          $$('p').append('Create and share reading lists with your bestest friends.').addClass('f3 serif'),
           $$(Button, { text: 'import', icon: 'key', status: 'secondary' }).on('click', () => this.send('hr:import')),
           $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new'))
         )
