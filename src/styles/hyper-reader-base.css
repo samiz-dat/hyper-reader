@@ -142,4 +142,10 @@
   vertical-align: middle;
 }
 
-.mw-main { max-width: 760px }
+.mw-main {
+  max-width: 600px;
+}
+
+.listOfLists {
+  list-style: none;
+}
