@@ -6,7 +6,7 @@
 .serif { font-family: 'Georgia', serif; }
 .sans { font-family: 'Avenir Next', 'Lato', Helvetica, sans-serif; }
 .mono { font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
-
+.sc-paragraph { font-family: 'Georgia', serif; }
 
 .faa {
   display: inline-block;
