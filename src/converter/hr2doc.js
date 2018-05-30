@@ -49,15 +49,15 @@ async function renderList (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
   const nodes = []
-  const annos = []
+  const markupNodes = []
   await node.iterate(async (child) => {
     if (child.type !== 'hr:ListItem') {
       console.warn('List', id, 'contains non hr:ListItem child')
       return
     }
     nodes.push(await getListItem(child))
-    const annotations = await getAnnotations(child)
-    annos.push(...annotations)
+    const markup = await getMarkupNodes(child)
+    markupNodes.push(...markup)
   })
   const data = {
     id,
@@ -66,7 +66,7 @@ async function renderList (doc, node, hr) {
     order: props['hr:order'],
     listType: props['hr:listType']
   }
-  importNodes(doc, [...nodes, ...annos, data])
+  importNodes(doc, [...nodes, ...markupNodes, data])
   await node.iterate(executeImport(doc, hr))
   return doc
 }
@@ -74,95 +74,95 @@ async function renderList (doc, node, hr) {
 async function renderTitle (doc, node) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
-  const annotations = await getAnnotations(node)
+  const markupNodes = await getMarkupNodes(node)
   const title = {
     id,
     type: 'heading',
     content: props['c4o:hasContent'],
     level: props['hr:level']
   }
-  importNodes(doc, [title, ...annotations])
+  importNodes(doc, [title, ...markupNodes])
   return doc
 }
 
-async function emphasisAnnotation (parentId, node) {
-  const annotationProps = await node.properties()
+async function emphasisMarkup (parentId, node) {
+  const markupProps = await node.properties()
   return {
     id: stripNamespace(node.name),
     type: 'emphasis',
     start: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:start']
+      offset: markupProps['hr:start']
     },
     end: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:end']
+      offset: markupProps['hr:end']
     }
   }
 }
 
-async function strongAnnotation (parentId, node) {
-  const annotationProps = await node.properties()
+async function strongMarkup (parentId, node) {
+  const markupProps = await node.properties()
   return {
     id: stripNamespace(node.name),
     type: 'strong',
     start: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:start']
+      offset: markupProps['hr:start']
     },
     end: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:end']
+      offset: markupProps['hr:end']
     }
   }
 }
 
-async function linkAnnotation (parentId, node) {
-  const annotationProps = await node.properties()
+async function linkMarkup (parentId, node) {
+  const markupProps = await node.properties()
   return {
     id: stripNamespace(node.name),
     type: 'link',
-    url: annotationProps['hr:url'],
+    url: markupProps['hr:url'],
     start: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:start']
+      offset: markupProps['hr:start']
     },
     end: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:end']
+      offset: markupProps['hr:end']
     }
   }
 }
 
-async function commentAnnotation (parentId, node) {
-  const annotationProps = await node.properties()
+async function commentMarkup (parentId, node) {
+  const markupProps = await node.properties()
   return {
     id: stripNamespace(node.name),
     type: 'comment',
-    content: annotationProps['hr:content'],
+    content: markupProps['hr:content'],
     start: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:start']
+      offset: markupProps['hr:start']
     },
     end: {
       path: [parentId, 'content'],
-      offset: annotationProps['hr:end']
+      offset: markupProps['hr:end']
     }
   }
 }
 
-const annotationsImporters = {
-  'hr:Emphasis': emphasisAnnotation,
-  'hr:Strong': strongAnnotation,
-  'hr:Link': linkAnnotation,
-  'hr:Comment': commentAnnotation
+const markupImporters = {
+  'hr:Emphasis': emphasisMarkup,
+  'hr:Strong': strongMarkup,
+  'hr:Link': linkMarkup,
+  'hr:Comment': commentMarkup
 }
 
-async function getAnnotations (parentNode) {
+async function getMarkupNodes (parentNode) {
   const parentId = stripNamespace(parentNode.name)
-  const annotations = await parentNode.all('hr:hasAnnotation')
-  const nodes = await Promise.all(annotations.map(async (node) => {
-    const importer = annotationsImporters[node.type]
+  const markupNodes = await parentNode.all('hr:hasMarkup')
+  const nodes = await Promise.all(markupNodes.map(async (node) => {
+    const importer = markupImporters[node.type]
     if (!importer) return
     return importer(parentId, node)
   }))
@@ -172,14 +172,14 @@ async function getAnnotations (parentNode) {
 async function renderParagraph (doc, node, hr) {
   const id = stripNamespace(node.name)
   const props = await node.properties()
-  const annotations = await getAnnotations(node)
-  // get all annotations to load
+  const markupNodes = await getMarkupNodes(node)
+  // get all markupNodes to load
   const data = {
     id,
     type: 'paragraph',
     content: props['c4o:hasContent']
   }
-  importNodes(doc, [data, ...annotations])
+  importNodes(doc, [data, ...markupNodes])
   return doc
 }
 

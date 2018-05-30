@@ -63,7 +63,7 @@ async function exportEmphasis (hr, node, ctx) {
   let hrNode = await getOrCreateNode(hr, node.id, 'hr:Emphasis')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
-  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  await parent.add('hr:hasMarkup', { name: prependNamespace('hr', node.id) })
   await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset
@@ -74,7 +74,7 @@ async function exportStrong (hr, node, ctx) {
   let hrNode = await getOrCreateNode(hr, node.id, 'hr:Strong')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
-  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  await parent.add('hr:hasMarkup', { name: prependNamespace('hr', node.id) })
   await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset
@@ -85,24 +85,40 @@ async function exportComment (hr, node, ctx) {
   let hrNode = await getOrCreateNode(hr, node.id, 'hr:Comment')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
-  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  await parent.add('hr:hasMarkup', { name: prependNamespace('hr', node.id) })
   await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset,
     'hr:content': node.content
   })
+  // Ideal for creating annotation
+  // const annotation = await hr.createAnnotation()
+  // await annotation.setMotivation('commenting')
+  // // add target specific node
+  // // how to update target not just add
+  // await annotation.setTarget(parent, { start: node.start.offset, end: node.end.offset })
+  // // set the text body of the
+  // await annotation.setBody(node.content)
 }
 
 async function exportLink (hr, node, ctx) {
   let hrNode = await getOrCreateNode(hr, node.id, 'hr:Link')
   const parentId = node.start.path[0]
   const parent = await hr.node(prependNamespace('hr', parentId))
-  await parent.add('hr:hasAnnotation', { name: prependNamespace('hr', node.id) })
+  await parent.add('hr:hasMarkup', { name: prependNamespace('hr', node.id) })
   await hrNode.update({
     'hr:start': node.start.offset,
     'hr:end': node.end.offset,
     'hr:url': node.url
   })
+  // Ideal for creating annotation
+  // const annotation = await hr.createAnnotation()
+  // await annotation.setMotivation('linking')
+  // // add target specific node
+  // // how to update target not just add
+  // await annotation.setTarget(parent, { start: node.start.offset, end: node.end.offset })
+  // // set the text body of the
+  // await annotation.setBody({ id: node.url, format: '' })
 }
 
 var exporters = {
