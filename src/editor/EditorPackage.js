@@ -43,7 +43,7 @@ function configure (config) {
   config.addKeyboardShortcut('CommandOrControl+s', { command: 'save-command' })
   config.addCommand('close', CloseCommand, { commandGroup: 'editor-options' })
   config.addLabel('close', 'Close')
-  config.addIcon('close', { 'fontawesome': 'fa-window-close' })
+  config.addIcon('close', { 'fontawesome': 'fa-times-circle' })
   config.addKeyboardShortcut('CommandOrControl+w', { command: 'close' })
 
   config.addToolPanel('toolbar', [
@@ -86,7 +86,7 @@ function configure (config) {
       name: 'options',
       type: 'tool-group',
       showDisabled: true,
-      style: 'minimal',
+      style: 'descriptive',
       commandGroups: ['editor-options']
     }
   ])
