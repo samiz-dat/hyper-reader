@@ -134,12 +134,19 @@ function createMenu () {
           }
         },
         {
-          label: 'Save As...',
-          accelerator: 'CommandOrControl+Shift+S',
+          label: 'Print',
+          accelerator: 'CommandOrControl+P',
           click () {
-            saveAs()
+            print()
           }
         }
+        // {
+        //   label: 'Save As...',
+        //   accelerator: 'CommandOrControl+Shift+S',
+        //   click () {
+        //     saveAs()
+        //   }
+        // }
       ]
     },
     {
@@ -241,6 +248,11 @@ function save () {
   // }
 }
 
+function print () {
+  let focusedWindow = BrowserWindow.getFocusedWindow()
+  focusedWindow.webContents.print()
+}
+
 function saveAs () {
   let focusedWindow = BrowserWindow.getFocusedWindow()
   dialog.showOpenDialog({
@@ -270,3 +282,6 @@ ipcMain.on('document:unsaved', () => {
     console.error('ERROR: Could not get focused window while receiving document:unsaved.')
   }
 })
+
+
+
