@@ -16,6 +16,7 @@ export default class SaveAs extends Component {
       }
     })
     form.append(
+      $$('p').addClass('mb2').append('What would you like to call your reading list?'),
       $$(SimpleInput, { label: 'Name', name: 'name', validator: { func: isSimpleText, msg: 'Requires a name!' } }).ref('name'),
       $$(Button, { text: 'Save', type: 'submit' })
     )

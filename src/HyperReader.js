@@ -2,6 +2,7 @@ import { Component } from 'substance'
 import EditorPackage from './editor/EditorPackage'
 import Modal from './editor/components/Modal/Modal'
 import SaveAs from './editor/components/Modals/SaveAs'
+import Share from './editor/components/Modals/Share'
 import ConfirmDelete from './editor/components/Modals/ConfirmDelete'
 import ConfirmClose from './editor/components/Modals/ConfirmClose'
 import ImportByKey from './editor/components/Modals/ImportByKey'
@@ -12,7 +13,8 @@ const modals = {
   'save-as': SaveAs,
   'confirm-close': ConfirmClose,
   'confirm-delete': ConfirmDelete,
-  import: ImportByKey
+  import: ImportByKey,
+  share: Share
 }
 
 export default class HyperReader extends Component {
@@ -23,17 +25,23 @@ export default class HyperReader extends Component {
     archive.onUpdate(() => this.rerender())
     this.handleActions({
       'closeModal': () => this.extendState({ modal: null }),
-      'hr:saveAs': () => this.extendState({ 'modal': {
-        type: 'save-as',
-        props: {},
+      'hr:share': (data) => this.extendState({ 'modal': {
+        type: 'share',
+        props: data,
         options: {
           width: 'small',
-          title: 'Save New Reading List'
+          title: 'Share This Reading List'
+        }
+      }}),
+      'hr:saveAs': () => this.extendState({ 'modal': {
+        type: 'save-as',
+        options: {
+          width: 'small',
+          title: 'Save Your New Reading List'
         }
       }}),
       'hr:confirmClose': () => this.extendState({ 'modal': {
         type: 'confirm-close',
-        props: {},
         options: {
           width: 'small',
           title: 'Close'
@@ -42,10 +50,9 @@ export default class HyperReader extends Component {
       'hr:new': () => archive.new(),
       'hr:import': () => this.extendState({ 'modal': {
         type: 'import',
-        props: {},
         options: {
           width: 'small',
-          title: 'Import New Reading List by Key?'
+          title: 'Import a New Reading List by Key?'
         }
       }}),
       'hr:open': (data) => archive.load(data.key),
@@ -94,7 +101,7 @@ export default class HyperReader extends Component {
     // console.log(modal, component)
     if (!component) return null
     return $$(Modal, modal.options).append(
-      $$(component, modal.props).ref('modal-content')
+      $$(component, modal.props || {}).ref('modal-content')
     ).ref('modal')
   }
 
