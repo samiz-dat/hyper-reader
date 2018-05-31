@@ -175,3 +175,7 @@
 .listOfLists {
   list-style: none;
 }
+
+.break-all {
+  word-break: break-all;
+}
