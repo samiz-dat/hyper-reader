@@ -37,7 +37,7 @@ export default class SimpleInput extends Component {
     let el = $$('div').addClass('sc-input a-flex a-stretch-content')
     let inputContainer = $$('div').addClass('a-flex flex-col a-grow-1 mr3')
     let input = $$('input')
-      .addClass('a-block a-b0 a-bb serif mw-100')
+      .addClass('a-block f5 a-b0 a-bb serif mw-100')
       .attr({
         name,
         pattern,
@@ -47,7 +47,7 @@ export default class SimpleInput extends Component {
       .on('change', () => this._onInputDebounced.flush())
       .ref('input')
     let labelEl = $$('label')
-      .addClass('a-flex a-grow-0 mr3 w-25')
+      .addClass('a-flex f5 fw700 a-grow-0 mr3 w-25')
       .attr({
         for: name
       })
