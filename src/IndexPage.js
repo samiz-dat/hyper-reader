@@ -21,8 +21,8 @@ export default class IndexPage extends Component {
       $$('div')
         .addClass('mw-main center tc pb5')
         .append(
-          $$(Button, { text: 'import', icon: 'key', status: 'secondary' }).on('click', () => this.send('hr:import')),
-          $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new'))
+          $$(Button, { text: 'New', icon: 'plus-circle' }).on('click', () => this.send('hr:new')),
+          $$(Button, { text: 'Import', icon: 'key', status: 'secondary' }).on('click', () => this.send('hr:import'))
         )
     )
     const readings = $$('ul')
