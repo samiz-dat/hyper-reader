@@ -137,8 +137,8 @@ export default class HyperReaderArchive {
     return this
   }
 
-  async import (key, name) {
-    return this._setLoading(() => this.manager.import(key, name))
+  async import (key) {
+    return this._setLoading(() => this.manager.import(key))
   }
 
   async load (key) {
