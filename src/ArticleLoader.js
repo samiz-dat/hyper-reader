@@ -5,9 +5,13 @@ function defaultDom () {
   const dom = DefaultDOMElement.createDocument()
   const domBody = dom.find('body')
   const h1 = dom.createElement('h1').setTextContent('Hey there!')
-  const p = dom.createElement('p').setTextContent('This is a new hyper reading document')
+  const p1 = dom.createElement('p').setTextContent('This is a new hyper reading document')
+  const p2 = dom.createElement('p').setTextContent('You can start writing your own reading list here.')
+  const p3 = dom.createElement('p').setTextContent('You do not need to structure it in any particular way.')
   domBody.appendChild(h1)
-  domBody.appendChild(p)
+  domBody.appendChild(p1)
+  domBody.appendChild(p2)
+  domBody.appendChild(p3)
   return dom
 }
 

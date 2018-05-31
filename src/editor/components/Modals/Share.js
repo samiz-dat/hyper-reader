@@ -1,5 +1,4 @@
 import { Component } from 'substance'
-import Button from '../Button/Button'
 
 export default class Share extends Component {
   render ($$) {
