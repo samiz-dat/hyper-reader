@@ -30,20 +30,18 @@ export default class HyperReader extends Component {
         props: data,
         options: {
           width: 'small',
-          title: 'Share this Reading List'
+          title: 'Share This Reading List'
         }
       }}),
       'hr:saveAs': () => this.extendState({ 'modal': {
         type: 'save-as',
-        props: {},
         options: {
           width: 'small',
-          title: 'Save New Reading List'
+          title: 'Save Your New Reading List'
         }
       }}),
       'hr:confirmClose': () => this.extendState({ 'modal': {
         type: 'confirm-close',
-        props: {},
         options: {
           width: 'small',
           title: 'Close'
@@ -52,10 +50,9 @@ export default class HyperReader extends Component {
       'hr:new': () => archive.new(),
       'hr:import': () => this.extendState({ 'modal': {
         type: 'import',
-        props: {},
         options: {
           width: 'small',
-          title: 'Import New Reading List by Key?'
+          title: 'Import a New Reading List by Key?'
         }
       }}),
       'hr:open': (data) => archive.load(data.key),
@@ -104,7 +101,7 @@ export default class HyperReader extends Component {
     // console.log(modal, component)
     if (!component) return null
     return $$(Modal, modal.options).append(
-      $$(component, modal.props).ref('modal-content')
+      $$(component, modal.props || {}).ref('modal-content')
     ).ref('modal')
   }
 
