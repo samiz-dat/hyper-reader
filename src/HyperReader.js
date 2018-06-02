@@ -51,7 +51,7 @@ export default class HyperReader extends Component {
       'hr:import': () => this.extendState({ 'modal': {
         type: 'import',
         options: {
-          width: 'small',
+          width: 'medium',
           title: 'Import a New Reading List by Key?'
         }
       }}),
