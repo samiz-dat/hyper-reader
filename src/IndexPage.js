@@ -16,7 +16,7 @@ export default class IndexPage extends Component {
         .addClass('mw-main center')
         .append(
           $$('h1').append('HyperReadings').addClass('serif pt4 f2'),
-          $$('p').append('Create and share reading lists with your bestest friends.').addClass('f3 mb4 serif')
+          $$('p').append('Create and share reading lists with your bestest friends, or favourite strangers.').addClass('f3 mb4 serif')
         ),
       $$('div')
         .addClass('mw-main center tc pb5')
