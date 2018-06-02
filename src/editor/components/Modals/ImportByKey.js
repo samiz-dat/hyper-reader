@@ -18,9 +18,11 @@ export default class ImportByKey extends Component {
     })
     form.append(
       $$('p').addClass('mb2').append('Enter the unique key for the reading list you want to import.'),
-      $$(SimpleInput, { label: 'Key', name: 'key', validator: { func: isKey, msg: 'Requires valid key!' } })
-        .ref('input-key'),
-      $$(Button, { text: 'Import', type: 'submit' }),
+      $$('div').addClass('a-flex a-stretch-content a-grow-1 pt3 pb4' ).append(
+        $$(SimpleInput, { label: 'Key',  name: 'key', validator: { func: isKey, msg: 'Requires valid key!' } })
+          .ref('input-key'),
+        $$(Button, { text: 'Import', type: 'submit' }),
+      ),
       $$('p').append('By importing a reading list you are helping to archive it. When Hyper Reader is open you will be helping share this reading list with others.')
     ).ref('form')
     el.append(form).ref('form-container')
