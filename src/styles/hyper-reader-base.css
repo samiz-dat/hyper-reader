@@ -2,7 +2,7 @@
   These are style to override default styling in Substance for descriptive buttons
 */
 
-button.sc-menu-item {
+.sc-tool-group button.sc-menu-item {
   width: auto;
   color: white;
   padding: 0 0.6rem;
@@ -13,20 +13,20 @@ button.sc-menu-item {
   border-radius: 9999px;
 }
 
-button.sc-menu-item:not([disabled]) {
+.sc-tool-group button.sc-menu-item:not([disabled]) {
   background-color: var(--blue);
 }
 
-button.sc-menu-item:hover:not([disabled]) {
+.sc-tool-group button.sc-menu-item:hover:not([disabled]) {
   background-color: var(--dark-blue);
 }
 
-button.sc-menu-item[disabled]:hover {
+.sc-tool-group button.sc-menu-item[disabled]:hover {
   background-color: var(--gray);
   cursor: initial;
 }
 
-button.sc-menu-item .se-keyboard-shortcut {
+.sc-tool-group button.sc-menu-item .se-keyboard-shortcut {
   color: var(--black);
   display: none
 }
