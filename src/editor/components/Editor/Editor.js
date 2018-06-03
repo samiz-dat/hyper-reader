@@ -21,7 +21,7 @@ class Editor extends AbstractEditor {
 
   _renderToolPanel ($$) {
     let configurator = this.props.editorSession.getConfigurator()
-    return $$('div').addClass('se-toolbar-wrapper')
+    return $$('div').addClass('se-toolbar-wrapper no-print')
       .append(
         $$(Toolbar, {
           toolPanel: configurator.getToolPanel('toolbar')

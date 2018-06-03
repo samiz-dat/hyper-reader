@@ -216,3 +216,11 @@ button.sc-menu-item .se-keyboard-shortcut {
 .nowrap {
   white-space: nowrap;
 }
+
+@media print
+{
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
