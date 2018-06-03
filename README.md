@@ -58,3 +58,7 @@ This will compile the source code and launch the application as [an Electron app
 You are in development mode, so whenever you change the source code, Electron will automatically recompile.
 
 You'll need to refresh the app (control + R) to see changes.
+
+## Reading Lists
+
+Public reading lists are available at www.hyperreadings.info
