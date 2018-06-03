@@ -14,9 +14,9 @@ matrix:
 
 cache:
   directories:
-  - node_modules
-  - $HOME/.cache/electron
-  - $HOME/.cache/electron-builder
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 before_install:
   - |
@@ -45,4 +45,4 @@ before_cache:
 
 branches:
   except:
-    - "/^v\d+\.\d+(\.\d+)?(-\S*)?$/."
+    - /^v\d+\.\d+(\.\d+)?(-\S*)?$/.
