@@ -1,6 +1,6 @@
 {
   "name": "hyper-reader",
-  "version": "0.0.3-0",
+  "version": "0.0.3-1",
   "description": "a hyper-readings editor built with substance.io [WIP]",
   "main": "./dist/hyper-reader.cjs.js",
   "jsnext:main": "index.es.js",
