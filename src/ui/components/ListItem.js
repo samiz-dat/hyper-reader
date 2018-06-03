@@ -40,6 +40,7 @@ export default class ListItem extends Component {
         .on('click', this._remove.bind(this))
     )
     return $$('div')
+      .addClass('nowrap')
       .append(options)
   }
   render ($$) {

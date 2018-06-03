@@ -212,3 +212,7 @@ button.sc-menu-item .se-keyboard-shortcut {
 .break-all {
   word-break: break-all;
 }
+
+.nowrap {
+  white-space: nowrap;
+}
