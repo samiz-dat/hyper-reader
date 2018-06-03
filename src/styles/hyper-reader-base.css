@@ -151,6 +151,9 @@ button.sc-menu-item .se-keyboard-shortcut {
 .rel {
   position: relative;
 }
+.fixed {
+  position: fixed;
+}
 
 .z-1000 {
   z-index: 1000;
