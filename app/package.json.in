@@ -1,13 +1,13 @@
 {
-  "name": "Hyper Reader",
+  "name": "HyperReader",
   "version": "${version}",
   "description": "A peer to peer word processor.",
   "main": "main.js",
   "dependencies": {
-    "electron": "2.0.0-beta.2"
+    "hyper-readings-manager": "0.0.7"
   },
   "build": {
-    "appId": "com.hyper-readings.hyper-readings-desktop",
+    "appId": "com.hyper-readings.hyper-reader-desktop",
     "files": [
       "data",
       "lib",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/substance/texture.git"
+    "url": "https://github.com/e-e-e/hyper-reader.git"
   },
   "license": "MIT"
 }
