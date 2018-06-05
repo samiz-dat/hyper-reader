@@ -7,7 +7,17 @@ The structure of this application is indebted to [Texture](https://github.com/su
 
 ## Installation
 
-Currently you need to use a terminal on your computer to install and run this project (e.g. the application Terminal on macOS).
+Simply install the current pre-built release for your operating system:
+
+- [Mac OSX](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-0.0.3-2.dmg)
+- [Linux](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-0.0.3-2-x86_64.AppImage)
+- [Windows](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-Setup-0.0.3-2.exe)
+
+[View all releases](https://github.com/e-e-e/hyper-reader/releases)
+
+**Note:** Hyper Reader is currently an unsigned application so you may receive warnings or may be unable to open it on your computer without consenting. Each operating system is different, but look at you can find instructions for how to open this app on a mac [here](https://www.howtogeek.com/205393/gatekeeper-101-why-your-mac-only-allows-apple-approved-software-by-default/).
+
+Alternatively, you can build the application yourself from the source code.
 
 ### Getting the source code
 
