@@ -1,6 +1,7 @@
 {
   "name": "HyperReader",
   "version": "${version}",
+  "author": "Benjamin Forster",
   "description": "A peer to peer word processor.",
   "main": "main.js",
   "dependencies": {
@@ -20,12 +21,22 @@
     "directories": {
       "output": "build",
       "buildResources": "build-resources"
-    },
-    "publish": null
+    }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/e-e-e/hyper-reader.git"
+  },
+  "target": {
+    "mac": {
+      "icon": "build-resources/icon.png"
+    },
+    "win": {
+      "icon": "build-resources/icon.png"
+    },
+    "linux": {
+      "icon": "build-resources/icon.png"
+    }
   },
   "license": "MIT"
 }
