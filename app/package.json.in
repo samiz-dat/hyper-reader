@@ -5,7 +5,10 @@
   "description": "A peer to peer word processor.",
   "main": "main.js",
   "dependencies": {
-    "hyper-readings-manager": "0.0.7"
+    "hyper-readings-manager": "0.0.11"
+  },
+  "devDependencies": {
+    "electron": "2.0.0-beta.2"
   },
   "build": {
     "appId": "com.hyper-readings.hyper-reader-desktop",

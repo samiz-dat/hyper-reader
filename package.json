@@ -13,6 +13,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benjamin Forster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/e-e-e/hyper-reader.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "browserify": "^16.2.0",
@@ -23,9 +27,8 @@
     "substance-bundler": "^0.21.2"
   },
   "dependencies": {
-    "hyper-readings-manager": "0.0.9",
+    "hyper-readings-manager": "0.0.11",
     "lodash.debounce": "^4.0.8",
-    "n3": "git://github.com/rdfjs/N3.js.git#develop",
     "substance": "^1.0.0-preview.63"
   }
 }
