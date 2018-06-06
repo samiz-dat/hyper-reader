@@ -118,6 +118,10 @@ export default class HyperReaderArchive {
     return this.manager.list()
   }
 
+  get (key) {
+    return this.manager.get(key)
+  }
+
   async remove (key) {
     return this._setLoading(() => this.manager.remove(key))
   }

@@ -29,7 +29,7 @@ export default class IndexPage extends Component {
       .addClass('mw-main center listOfLists pa0')
       .ref('list')
     if (list && list.length > 0) {
-      readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${i}`)))
+      readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${item.key}`)))
     } else {
       readings.append($$('li').append('No Reading Lists'))
     }
