@@ -1,6 +1,6 @@
 import { Component } from 'substance'
 import Button from './editor/components/Button/Button'
-import ListItem from './ui/components/ListItem'
+import ListItem from './editor/components/ListItem/ListItem'
 
 export default class IndexPage extends Component {
   // constructor (...args) {

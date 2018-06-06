@@ -1,5 +1,5 @@
 import { Component } from 'substance'
-import Button from '../../editor/components/Button/Button'
+import Button from '../Button/Button'
 
 export default class ListItem extends Component {
   _open () {
