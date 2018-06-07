@@ -27,12 +27,16 @@ export default class ListItem extends Component {
     }
   }
   _update () {
+    const { title, percent, authorised } = this.state
     const info = this.context.archive.get(this.props.key)
-    this.setState({
+    const newState = {
       title: info.title,
       percent: info.size.totalPercentage,
       authorised: info.authorised
-    })
+    }
+    if (title !== newState.title || percent !== newState.percent || authorised !== newState.authorised) {
+      this.setState(newState)
+    }
     if (info.size.totalPercentage === 100) {
       clearInterval(this.timer)
       this.timer = null
@@ -73,11 +77,12 @@ export default class ListItem extends Component {
       // $$(Button, { text: 'Show', icon: 'folder', size: 'small', status: 'secondary' })
       //   .on('click', this._reveal.bind(this)),
       $$(Button, { icon: 'trash', size: 'small', status: 'secondary' })
-        .on('click', this._remove.bind(this))
+        .on('click', this._remove.bind(this)).ref('trash-button')
     )
     return $$('div')
       .addClass('nowrap')
       .append(options)
+      .ref('buttons')
   }
 
   render ($$) {
@@ -97,7 +102,7 @@ export default class ListItem extends Component {
         .append(
           $$('div').addClass('sans f3 fw700').append(title || key),
           this._options($$, downloading)
-        ),
+        ).ref('button-group'),
       $$('div')
         .addClass('bb b--dark-blue bw2')
         .attr({ style: `width: ${percent.toFixed(2)}%` })
