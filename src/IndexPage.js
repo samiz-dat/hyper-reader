@@ -1,6 +1,6 @@
 import { Component } from 'substance'
 import Button from './editor/components/Button/Button'
-import ListItem from './ui/components/ListItem'
+import ListItem from './editor/components/ListItem/ListItem'
 
 export default class IndexPage extends Component {
   // constructor (...args) {
@@ -29,7 +29,7 @@ export default class IndexPage extends Component {
       .addClass('mw-main center listOfLists pa0')
       .ref('list')
     if (list && list.length > 0) {
-      readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${i}`)))
+      readings.append(list.map((item, i) => $$(ListItem, item).ref(`list-item-${item.key}`)))
     } else {
       readings.append($$('li').append('No Reading Lists'))
     }
