@@ -9,9 +9,9 @@ The structure of this application is indebted to [Texture](https://github.com/su
 
 Simply install the current pre-built release for your operating system:
 
-- [Mac OSX](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-0.0.3-2.dmg)
-- [Linux](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-0.0.3-2-x86_64.AppImage)
-- [Windows](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-2/HyperReader-Setup-0.0.3-2.exe)
+- [Mac OSX](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-3/HyperReader-0.0.3-3.dmg)
+- [Linux](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-3/HyperReader-0.0.3-3-x86_64.AppImage)
+- [Windows](https://github.com/e-e-e/hyper-reader/releases/download/v0.0.3-3/HyperReader-Setup-0.0.3-3.exe)
 
 [View all releases](https://github.com/e-e-e/hyper-reader/releases)
 
