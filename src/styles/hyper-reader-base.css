@@ -227,7 +227,6 @@
 
 .only-print.header {
   position: absolute;
-  display: initial;
   line-height: 1;
   font-size: 0.5rem;
   text-align: center;
