@@ -221,21 +221,40 @@
   white-space: nowrap;
 }
 
+.only-print {
+  display: none;
+}
+
+.only-print.header {
+  position: absolute;
+  display: initial;
+  line-height: 1;
+  font-size: 0.5rem;
+  text-align: center;
+  top: 1rem;
+  left: 0;
+  right: 0;
+}
+
 @media print
 {
-    .no-print, .no-print *
-    {
-        display: none !important;
-    }
+  .only-print {
+    display: initial !important;
+  }
 
-    .sc-scroll-pane.sm-default-style > .se-scrollable {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      left: auto;
-      right: auto;
-    }
-    h1, h2, h3, p, a, li {
-      page-break-inside: avoid;
-    }
+  .no-print, .no-print *
+  {
+      display: none !important;
+  }
+
+  .sc-scroll-pane.sm-default-style > .se-scrollable {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+  }
+  h1, h2, h3, p, a, li {
+    page-break-inside: avoid;
+  }
 }

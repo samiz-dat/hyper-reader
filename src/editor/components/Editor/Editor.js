@@ -59,10 +59,20 @@ class Editor extends AbstractEditor {
     ).ref('contentPanel')
   }
 
+  _renderPrintHeader ($$) {
+    const title = this.context.archive.getTitle()
+    const key = this.context.archive.selected
+    return $$('div')
+      .addClass('only-print header')
+      .append(`${title} || ${key}`, $$('br'), `www.hyperreadings.info`)
+      .ref('print_header')
+  }
+
   render ($$) {
     let SplitPane = this.getComponent('split-pane')
     let el = $$('div').addClass('sc-editor')
     el.append(
+      this._renderPrintHeader($$),
       $$(SplitPane, {splitType: 'horizontal'}).append(
         this._renderToolPanel($$),
         this._renderContentPanel($$)

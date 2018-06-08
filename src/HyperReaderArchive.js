@@ -102,8 +102,8 @@ export default class HyperReaderArchive {
 
   getTitle () {
     /* TODO: get this from the selected hyper-reading  */
-    let title = 'Untitled'
-    return title
+    const info = this.get(this.selected)
+    return info ? info.title : 'Untitled'
   }
 
   async new (name) {
