@@ -1,5 +1,7 @@
 # Hyper Reader
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/samiz-dat/hyper-reader.svg)](https://greenkeeper.io/)
+
 **This is a work in progress.**
 
 An editor for [HyperReadings](https://github.com/sdockray/hyperreadings) built with [Substance](http://substance.io/).
