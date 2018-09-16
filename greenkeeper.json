@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "app/package.json.in",
+        "package.json"
+      ]
+    }
+  }
+}
